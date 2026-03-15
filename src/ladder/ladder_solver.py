@@ -38,7 +38,9 @@ def solve_rung_path(element):
     if  isinstance(element, Coil) :
         #coil reached set coil reached to true
         element.reached = True
-        return True
+        print(f'element {element} reached True')
+        #return False to conitnue cheking other nodes if exist
+        return False
 
     if element.type == 'split' or element.type == 'join':
 
@@ -52,7 +54,7 @@ def solve_rung_path(element):
         return False
 
 contact_1 = Contact(connected_data=True)
-contact_2 = Contact(connected_data=True)
+contact_2 = Contact(connected_data=False)
 node_1 = Element(connected_data=True,type='split')
 contact_3 = Contact(connected_data=False)
 contact_4 = Contact(connected_data=True)
@@ -74,8 +76,9 @@ node_2.connected_elements.append(coil_2)
              |        |    |
              +--||----+    +----()
 '''
-#TODO current search cant reach and set second coil
+#TODO move test declarations to test module
 rung_1 = Rung(start_element=contact_1)
 rung_1.coils.append(coil_1)
 rung_1.coils.append(coil_2)
 solve_rung(rung_1)
+
