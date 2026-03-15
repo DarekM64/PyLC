@@ -32,7 +32,7 @@ def solve_rung_path(element):
         else:
             #if contact return True go deeper
             if element.get_value():
-                solve_rung(element.connected_elements[0])
+                solve_rung_path(element.connected_elements[0])
     
     #Coil solving
     if  isinstance(element, Coil) :
@@ -45,7 +45,7 @@ def solve_rung_path(element):
         for next_element in element.connected_elements:
             #try path for every next element from split node
             #stop if any path reached true (logic OR)
-            if solve_rung(next_element) == True:
+            if solve_rung_path(next_element) == True:
                 return True
             
         #every path from split return False
@@ -53,10 +53,29 @@ def solve_rung_path(element):
 
 contact_1 = Contact(connected_data=True)
 contact_2 = Contact(connected_data=True)
+node_1 = Element(connected_data=True,type='split')
+contact_3 = Contact(connected_data=False)
+contact_4 = Contact(connected_data=True)
+node_2 = Element(connected_data=True,type='join')
 coil_1 = Coil(connected_data=True)
+coil_2 = Coil(connected_data=True)
 
 contact_1.connected_elements.append(contact_2)
-contact_2.connected_elements.append(coil_1)
-rung_1 = Rung(start_element=contact_1)
+contact_2.connected_elements.append(node_1)
+node_1.connected_elements.append(contact_3)
+node_1.connected_elements.append(contact_4)
+contact_3.connected_elements.append(node_2)
+contact_4.connected_elements.append(node_2)
+node_2.connected_elements.append(coil_1)
+node_2.connected_elements.append(coil_2)
 
-solve_rung(element_1,element_3)
+'''
+-||-----||---+--||----+----+----()
+             |        |    |
+             +--||----+    +----()
+'''
+#TODO current search cant reach and set second coil
+rung_1 = Rung(start_element=contact_1)
+rung_1.coils.append(coil_1)
+rung_1.coils.append(coil_2)
+solve_rung(rung_1)

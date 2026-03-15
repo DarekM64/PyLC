@@ -3,17 +3,18 @@ class Element():
     def __init__(self,connected_data=None, type='basic'):
         self.connected_elements = []
         self.type = type
-        self.connected_data = connected_data
+        
     
 class Coil(Element):
      def __init__(self,connected_data=None, type='coil'):
         Element.__init__(self,connected_data, type)
-
+        self.connected_data = connected_data
         self.reached = False
      
 class Contact(Element):
     def __init__(self,connected_data=None, type='contact',coil_type='NO'):
         self.coil_type=coil_type
+        self.connected_data = connected_data
         Element.__init__(self,connected_data, type)
     
     def get_value(self):
@@ -32,7 +33,7 @@ class Rung():
     '''List of elements creating rung'''
     def __init__(self,start_element=None, outputs=None):
         self.start_element = start_element
-        self.coils=list[Coil] = list() #creates empty list of Coils affected by rung
+        self.coils=[] #creates empty list of Coils affected by rung
 
 class Program():
     '''List of rungs creating program'''
