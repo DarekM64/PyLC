@@ -12,7 +12,7 @@ PLC Ladder Simulator: application simulating PLC functionality in Python.
 ## Roadmap
 
 V0.1:   
--simple ladder with contacts creator 
+-simple ladder with contacts creator  
 -rung ladder solver
 
 
