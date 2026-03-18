@@ -1,5 +1,8 @@
-from ladder_elements import *
+from src.ladder.ladder_elements import *
+import sys
 
+for i in sys.path:
+    print(i)
 
 def solve_rung(rung:Rung):
     '''solve coils states for single rung
@@ -54,7 +57,7 @@ def solve_rung_path(element):
         return False
 
 contact_1 = Contact(connected_data=True)
-contact_2 = Contact(connected_data=False)
+contact_2 = Contact(connected_data=True)
 node_1 = Element(connected_data=True,type='split')
 contact_3 = Contact(connected_data=False)
 contact_4 = Contact(connected_data=True)
