@@ -1,18 +1,20 @@
 class Element():
     '''Single element in ladder'''
-    def __init__(self,connected_data=None, type='basic'):
+    def __init__(self,connected_data=None,type='basic'):
         self.connected_elements = []
         self.type = type
         
     
 class Coil(Element):
-     def __init__(self,connected_data=None, type='coil'):
+     def __init__(self,connected_data=None):
+        type='coil'
         Element.__init__(self,connected_data, type)
         self.connected_data = connected_data
         self.reached = False
      
 class Contact(Element):
-    def __init__(self,connected_data=None, type='contact',coil_type='NO'):
+    def __init__(self,connected_data=None,coil_type='NO'):
+        type='contact'
         self.coil_type=coil_type
         self.connected_data = connected_data
         Element.__init__(self,connected_data, type)
