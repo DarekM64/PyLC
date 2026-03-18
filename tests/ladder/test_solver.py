@@ -1,6 +1,70 @@
 from src.ladder.ladder_elements import Contact, Coil
 from src.ladder.ladder_solver import *
 
+def test_rung_prepare_coils():
+    '''Check if prepare_coils clear reached flag'''
+    coil_1=Coil(connected_data=True)
+    coil_1.reached = True
+    rung_1 = Rung(start_element=contact_1)
+    rung_1.coils.append(coil_1)
+    rung_prepare_coils(rung_1.coils)
+    assert rung_1.coils[0].reached == False, "Coil reached flag not cleared"
+
+
+def test_solve_rung_1():
+    '''
+    -|T|-----()
+      NO     
+    '''
+    contact_1 = Contact(connected_data=True)
+    coil_1 = Coil(connected_data=False)
+    contact_1.connected_elements.append(coil_1)
+    rung_1 = Rung(start_element=contact_1)
+    rung_1.coils.append(coil_1)
+    solve_rung(rung_1)
+    assert rung_1.coils[0].connected_data == True, "Coil should be in 1-True state."
+
+def test_solve_rung_2():
+    '''
+    -|T|-----()
+      NO     
+    '''
+    contact_1 = Contact(connected_data=False)
+    coil_1 = Coil(connected_data=False)
+    contact_1.connected_elements.append(coil_1)
+    rung_1 = Rung(start_element=contact_1)
+    rung_1.coils.append(coil_1)
+    solve_rung(rung_1)
+    assert rung_1.coils[0].connected_data == False, "Coil should be in 0-False state."
+
+def test_solve_rung_3():
+    '''
+    -|T|-----()
+      NC     
+    '''
+    contact_1 = Contact(connected_data=True, coil_type='NC')
+    coil_1 = Coil(connected_data=False)
+    contact_1.connected_elements.append(coil_1)
+    rung_1 = Rung(start_element=contact_1)
+    rung_1.coils.append(coil_1)
+    solve_rung(rung_1)
+    assert rung_1.coils[0].connected_data == False, "Coil should be in 0-False state."
+
+def test_solve_rung_4():
+    '''
+    -|T|-----()
+      NC     
+    '''
+    contact_1 = Contact(connected_data=False, coil_type='NC')
+    coil_1 = Coil(connected_data=False)
+    contact_1.connected_elements.append(coil_1)
+    rung_1 = Rung(start_element=contact_1)
+    rung_1.coils.append(coil_1)
+    solve_rung(rung_1)
+    assert rung_1.coils[0].connected_data == True, "Coil should be in 1-True state."
+
+
+
 def test_1():
     contact_1 = Contact(connected_data=True)
     contact_2 = Contact(connected_data=False)
@@ -25,7 +89,6 @@ def test_1():
                 |        |    |
                 +--||----+    +----()
     '''
-    #TODO move test declarations to test module
     rung_1 = Rung(start_element=contact_1)
     rung_1.coils.append(coil_1)
     rung_1.coils.append(coil_2)

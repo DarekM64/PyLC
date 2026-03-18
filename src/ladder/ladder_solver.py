@@ -1,8 +1,6 @@
 from src.ladder.ladder_elements import *
-import sys
 
-for i in sys.path:
-    print(i)
+
 
 def solve_rung(rung:Rung):
     '''solve coils states for single rung
