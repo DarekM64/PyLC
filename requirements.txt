@@ -1,0 +1,9 @@
+colorama==0.4.6
+customtkinter==5.2.2
+darkdetect==0.8.0
+iniconfig==2.3.0
+packaging==26.0
+pluggy==1.6.0
+Pygments==2.19.2
+pytest==9.0.2
+-e git+https://github.com/DarekM64/PyLC.git@cc462c32c51ed3ccbf36968a50b6de6fcaf78020#egg=src

@@ -63,6 +63,21 @@ def test_solve_rung_4():
     solve_rung(rung_1)
     assert rung_1.coils[0].connected_data == True, "Coil should be in 1-True state."
 
+def test_solve_rung_5():
+    '''
+    -|T|---|T|--()
+      NO   NO  
+    '''
+    contact_1 = Contact(connected_data=True, coil_type='NO')
+    contact_2 = Contact(connected_data=True, coil_type='NO')
+    coil_1 = Coil(connected_data=False)
+    contact_1.connected_elements.append(contact_2)
+    contact_2.connected_elements.append(coil_1)
+    rung_1 = Rung(start_element=contact_1)
+    rung_1.coils.append(coil_1)
+    solve_rung(rung_1)
+    assert rung_1.coils[0].connected_data == True, "Coil should be in 1-True state."
+
 
 
 def test_1():
@@ -94,4 +109,3 @@ def test_1():
     rung_1.coils.append(coil_2)
     solve_rung(rung_1)
 
-test_1()
