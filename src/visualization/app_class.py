@@ -1,9 +1,12 @@
 import customtkinter as ctk
-from tkinter import filedialog, Canvas
+from tkinter import filedialog
 from CTkMenuBar import *
-from canvas_ladder_elements import *
 
+from tkinter import *
 
+#in project imports
+from src.visualization.ladder_canvas_elements import *
+from ladder_canvas import create_fields
 
 
 
@@ -49,6 +52,7 @@ class App(ctk.CTk):
         #frames inside main window, tool section bar, scrollable canvas below for creating ladder
 
         tools_frame = ctk.CTkFrame(master=self,
+                                   height=100,
                                    bg_color='dark grey',
                                    fg_color='dark grey')
         canvas_frame = ctk.CTkFrame(master=self,
@@ -59,24 +63,31 @@ class App(ctk.CTk):
         tools_frame.pack(side='top',fill='x')
         canvas_frame.pack(side='bottom',fill='both', expand=True)
 
-        canvas_frame.grid_rowconfigure(0, weight=1)
+        canvas_frame.grid_rowconfigure(0, weight=1) 
         canvas_frame.grid_columnconfigure(0, weight=1)
 
         # create scrollable textbox
        # tk_textbox = tkinter.Text(app, highlightthickness=0)
         #tk_textbox.grid(row=0, column=0, sticky="nsew")
-        canvas = Canvas(master=canvas_frame)
-        canvas.grid(row=0, column=0, sticky="nsew")
+        canvas = Canvas(master=canvas_frame,scrollregion=(0,0,1000,3000))
+        canvas.grid(row=0, column=0, sticky="nsew",padx=0,pady=0)
         # create CTk scrollbar
         ctk_canvas_scrollbar = ctk.CTkScrollbar(canvas_frame, command=canvas.yview, )
         ctk_canvas_scrollbar.grid(row=0, column=1, sticky="ns")
 
         # connect textbox scroll event to CTk scrollbar
         canvas.configure(yscrollcommand=ctk_canvas_scrollbar.set)
-
+        self.field_width=80
+        self.field_height=80
+        self.field_padding=1
+        self.field_list = create_fields(canvas, x_size=self.field_width, y_size = self.field_width, padding = self.field_padding)
         def click_handler(event):
             print(f'x={event.x}, y={event.y}')
-            draw_coil(canvas,event.x,event.y)
+            x_width = self.field_width + self.field_padding
+            y_height = self.field_height + self.field_padding
+            aligned_x = event.x - (event.x-1) % x_width
+            aligned_y = event.y - event.y % y_height + self.field_width//2
+            draw_coil(canvas,aligned_x,aligned_y)
 
 
         canvas.bind("<Button-1>", click_handler)
