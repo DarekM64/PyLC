@@ -7,7 +7,7 @@ from tkinter import *
 #in project imports
 from src.visualization.ladder_canvas_elements import *
 from ladder_canvas import create_fields
-
+from src.program.model import initialize_program
 
 
 
@@ -15,7 +15,8 @@ from ladder_canvas import create_fields
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
-
+        #program
+        initialize_program(16,30)
         self.title("PyLC")
         self.geometry("1024x800")
 
@@ -67,7 +68,7 @@ class App(ctk.CTk):
         canvas_frame.grid_columnconfigure(0, weight=1)
 
         # create scrollable textbox
-       # tk_textbox = tkinter.Text(app, highlightthickness=0)
+        #tk_textbox = tkinter.Text(app, highlightthickness=0)
         #tk_textbox.grid(row=0, column=0, sticky="nsew")
         canvas = Canvas(master=canvas_frame,scrollregion=(0,0,1000,3000))
         canvas.grid(row=0, column=0, sticky="nsew",padx=0,pady=0)
@@ -81,6 +82,7 @@ class App(ctk.CTk):
         self.field_height=80
         self.field_padding=1
         self.field_list = create_fields(canvas, x_size=self.field_width, y_size = self.field_width, padding = self.field_padding)
+        
         def click_handler(event):
             print(f'x={event.x}, y={event.y}')
             x_width = self.field_width + self.field_padding
