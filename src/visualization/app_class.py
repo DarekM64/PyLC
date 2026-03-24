@@ -7,16 +7,19 @@ from tkinter import *
 #in project imports
 from src.visualization.ladder_canvas_elements import *
 from ladder_canvas import create_fields
-from src.program.model import initialize_program
+from src.program.model import Ladder_grid
 
 
 
+LADDER_ROWS = 20
+LADDER_COLUMNS = 16
 
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         #program
-        initialize_program(16,30)
+        ladder_grid= Ladder_grid(rows=LADDER_ROWS, cols=LADDER_COLUMNS)
+        
         self.title("PyLC")
         self.geometry("1024x800")
 
@@ -81,14 +84,22 @@ class App(ctk.CTk):
         self.field_width=80
         self.field_height=80
         self.field_padding=1
-        self.field_list = create_fields(canvas, x_size=self.field_width, y_size = self.field_width, padding = self.field_padding)
+        self.field_list = create_fields(canvas, 
+                                        rows=LADDER_ROWS,
+                                        cols=LADDER_COLUMNS,
+                                        x_size=self.field_width, y_size = self.field_width, padding = self.field_padding)
         
         def click_handler(event):
+            '''calculate x,y index  of clickecd field'''
             print(f'x={event.x}, y={event.y}')
+
+
             x_width = self.field_width + self.field_padding
             y_height = self.field_height + self.field_padding
             aligned_x = event.x - (event.x-1) % x_width
             aligned_y = event.y - event.y % y_height + self.field_width//2
+            
+            ladder_grid.set_element((event.y-1) // y_height, (event.x-1) // x_width)
             draw_coil(canvas,aligned_x,aligned_y)
 
 
