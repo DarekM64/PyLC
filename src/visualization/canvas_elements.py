@@ -2,8 +2,8 @@ from tkinter import *
 
 
 def draw_contact(canvas:Canvas,x1,y1,color='black', size=80):
-    '''Function to draw coil in canvas'''
-    clear_canvas(canvas, x1, y1, size)
+    '''Function to draw contact in canvas'''
+    clear_canvas(canvas, x1, y1-size/2, size)
     line_width = size/10
     test_column_color = 'blue'
     #code below should produce -| |- sign
@@ -18,10 +18,10 @@ def draw_contact(canvas:Canvas,x1,y1,color='black', size=80):
     
 def draw_coil(canvas:Canvas,x1,y1,color='black', size=80):
     '''Function to draw coil in canvas'''
-    clear_canvas(canvas, x1, y1, size)
+    clear_canvas(canvas, x1, y1-size/2, size)
     line_width = size/10
     test_column_color = 'blue'
-    #code below should produce -| |- sign
+    #code below should produce -( )- sign
     #first horizontal segment
     canvas.create_line(x1, y1, x1+line_width*2, y1, fill=color,width=line_width) 
     #second horizontal segment
@@ -40,15 +40,43 @@ def draw_coil(canvas:Canvas,x1,y1,color='black', size=80):
                       fill=test_column_color, width=line_width)
 
 def draw_line(canvas:Canvas,x1,y1,color='black', size=80):
-    '''Function to draw coil in canvas'''
-    clear_canvas(canvas, x1, y1, size)
+    '''Function to draw line in canvas'''
+    clear_canvas(canvas, x1, y1-size/2, size)
     line_width = size/10
-    test_column_color = 'blue'
-    #code below should produce -| |- sign
-    #horizontal line
     canvas.create_line(x1, y1, x1+size, y1, fill=color,width=line_width) 
 
 
 def clear_canvas(canvas:Canvas, x1, y1, size=80):
     '''Clear ladder field before drawing element'''
-    canvas.create_polygon((x1,y1), (x1+size, y1+size),fill='red')
+    canvas.create_rectangle((x1,y1), (x1+size, y1+size),fill='light blue', activeoutline='yellow')
+
+
+def draw_element(canvas:Canvas, x1, y1, color='black', size=80, shape_type='line'):
+    match shape_type:
+        case 'coil':
+            draw_coil(canvas, x1, y1 , color,size)
+        case 'contact':
+            draw_contact(canvas, x1, y1, color ,size)
+        case 'line':
+            draw_line(canvas, x1, y1 , color, size)
+        case 'stop':
+            draw_stop(canvas, x1, y1 , color, size)
+        case 'start':
+            draw_start(canvas, x1, y1 , color, size)
+
+def draw_stop(canvas:Canvas, x1, y1, color='yellow', size=80):
+    padding_sign = size/10
+    clear_canvas(canvas, x1, y1-size/2, size)
+    canvas.create_rectangle((x1+padding_sign*2,y1+padding_sign*2-size/2), (x1+4*padding_sign, y1+size/2-padding_sign*2),
+                            fill = color)
+    canvas.create_rectangle((x1+padding_sign*6,y1+padding_sign*2-size/2), (x1+8*padding_sign, y1+size/2-padding_sign*2),
+                            fill = color)
+def draw_start(canvas:Canvas, x1, y1, color='yellow', size=80):
+    padding_sign = size/10
+    clear_canvas(canvas, x1, y1-size/2, size)
+    canvas.create_polygon((x1+padding_sign*2,y1+padding_sign*2-size/2),
+                          (x1+2*padding_sign, y1+size/2-padding_sign*2),
+                          (x1+8*padding_sign, y1),
+                            fill = color)
+    # canvas.create_rectangle((x1+padding_sign*6,y1+padding_sign*2-size/2), (x1+8*padding_sign, y1+size/2-padding_sign*2),
+    #                         fill = color)
