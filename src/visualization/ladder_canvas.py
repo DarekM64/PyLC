@@ -2,7 +2,7 @@ import customtkinter as ctk
 from tkinter import Canvas
 
 
-def create_fields(canvas:Canvas, rows=20, cols=16,x_size=80, y_size=80,padding=1):
+def create_fields(canvas:Canvas, rows=20, cols=16,x_size=80, y_size=80,padding=0):
     id_list=[]
     for r in range(cols):
         next_x = r * x_size+padding*r

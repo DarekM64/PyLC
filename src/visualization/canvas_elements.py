@@ -45,6 +45,29 @@ def draw_line(canvas:Canvas,x1,y1,color='black', size=80):
     line_width = size/10
     canvas.create_line(x1, y1, x1+size, y1, fill=color,width=line_width) 
 
+def draw_split(canvas:Canvas, x1, y1, color='black', size=80):
+    '''Function to draw split in canvas
+            --+--
+              |'''
+    clear_canvas(canvas, x1, y1-size/2, size)
+    clear_canvas(canvas, x1, y1+size/2, size)
+    line_width = size/10
+    draw_line(canvas, x1, y1, color='black', size=size)
+    canvas.create_line(x1+size/2, y1, x1+size/2, y1+size, fill=color,width=line_width) 
+    canvas.create_line(x1+size/2, y1+size, x1+size, y1+size, fill=color,width=line_width) 
+
+def draw_join(canvas:Canvas, x1, y1, color='black', size=80):
+    '''Function to draw join in canvas
+            --+--
+              |'''
+    clear_canvas(canvas, x1, y1-size/2, size)
+    clear_canvas(canvas, x1, y1+size/2, size)
+    line_width = size/10
+    draw_line(canvas, x1, y1, color='black', size=size)
+    canvas.create_line(x1+size/2, y1, x1+size/2, y1+size, fill=color,width=line_width) 
+    canvas.create_line(x1, y1+size, x1+size/2, y1+size, fill=color,width=line_width) 
+    
+
 
 def clear_canvas(canvas:Canvas, x1, y1, size=80):
     '''Clear ladder field before drawing element'''
@@ -63,6 +86,14 @@ def draw_element(canvas:Canvas, x1, y1, color='black', size=80, shape_type='line
             draw_stop(canvas, x1, y1 , color, size)
         case 'start':
             draw_start(canvas, x1, y1 , color, size)
+        case 'pointer':
+            draw_pointer(canvas, x1, y1 , color, size)
+        case 'split':
+            draw_split(canvas, x1, y1 , color, size)
+        case 'join':
+            draw_join(canvas, x1, y1 , color, size)
+        case 'clear':
+            clear_canvas(canvas, x1, y1-size/2, size)
 
 def draw_stop(canvas:Canvas, x1, y1, color='yellow', size=80):
     padding_sign = size/10
@@ -80,3 +111,11 @@ def draw_start(canvas:Canvas, x1, y1, color='yellow', size=80):
                             fill = color)
     # canvas.create_rectangle((x1+padding_sign*6,y1+padding_sign*2-size/2), (x1+8*padding_sign, y1+size/2-padding_sign*2),
     #                         fill = color)
+    # 
+def draw_pointer(canvas:Canvas, x1, y1, color='yellow', size=80):
+    padding_sign = size/10
+    
+    clear_canvas(canvas, x1, y1-size/2, size)
+    canvas.create_line(x1+padding_sign, y1, x1+size-padding_sign, y1, fill=color,width=padding_sign) 
+    canvas.create_line(x1+size/2, y1+size/2-padding_sign, x1+size/2, y1-size/2+padding_sign, fill=color,width=padding_sign) 
+    

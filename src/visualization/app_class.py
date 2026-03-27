@@ -83,7 +83,7 @@ class App(ctk.CTk):
         canvas.configure(yscrollcommand=ctk_canvas_scrollbar.set)
         self.field_width=80
         self.field_height=80
-        self.field_padding=1
+        self.field_padding=0
         self.field_list = create_fields(canvas, 
                                         rows=LADDER_ROWS,
                                         cols=LADDER_COLUMNS,
@@ -100,7 +100,8 @@ class App(ctk.CTk):
             aligned_y = event.y - event.y % y_height + self.field_width//2
             print(f'To function x:{(event.y-1) // y_height}, y:{(event.x-1) // x_width}')
             ladder_grid.set_element((event.y-1) // y_height, (event.x-1) // x_width)
-            draw_element(canvas, aligned_x, aligned_y, shape_type=self.selected_tool)
+            if self.selected_tool !='pointer':
+                draw_element(canvas, aligned_x, aligned_y, shape_type=self.selected_tool)
             #draw_coil(canvas,aligned_x,aligned_y)
 
 
@@ -118,23 +119,35 @@ class App(ctk.CTk):
         button1=create_button(tools_frame,shape_type='coil',size = 80)
         button2=create_button(tools_frame,shape_type='contact',size = 80)
         button3=create_button(tools_frame,shape_type='line',size = 80)
+        button4=create_button(tools_frame,shape_type='split',size = 80)
+        button5=create_button(tools_frame,shape_type='join',size = 80)
+        button6=create_button(tools_frame,shape_type='clear',size = 80)
+        button7=create_button(tools_frame,shape_type='pointer',size = 80)
 
         button1.bind("<Button-1>", lambda event: select_tool('coil'))
         button2.bind("<Button-1>", lambda event: select_tool('contact'))
         button3.bind("<Button-1>", lambda event: select_tool('line'))
+        button4.bind("<Button-1>", lambda event: select_tool('split'))
+        button5.bind("<Button-1>", lambda event: select_tool('join'))
+        button6.bind("<Button-1>", lambda event: select_tool('clear'))
+        button7.bind("<Button-1>", lambda event: select_tool('pointer'))
         tools_frame.grid_rowconfigure(0, weight=1) 
         tools_frame.grid_columnconfigure(0, weight=1)
         button1.grid(row=0, column=0,padx=5,pady=5, sticky='e')
         button2.grid(row=0, column=1,padx=5,pady=5, sticky='e')
         button3.grid(row=0, column=2,padx=5,pady=5, sticky='e')
+        button4.grid(row=0, column=3,padx=5,pady=5, sticky='e')
+        button5.grid(row=0, column=4,padx=5,pady=5, sticky='e')
+        button6.grid(row=0, column=5,padx=5,pady=5, sticky='e')
+        button7.grid(row=0, column=6,padx=5,pady=5, sticky='e')
         
         button_plc_1=create_button(tools_frame,shape_type='stop',size = 80)
         button_plc_2=create_button(tools_frame,shape_type='start',size = 80)
         button_plc_1.bind("<Button-1>", lambda event: select_plc_action('stop'))
         button_plc_2.bind("<Button-1>", lambda event: select_plc_action('start'))
 
-        button_plc_1.grid(row=0, column=3,padx=5,pady=5, sticky='e')
-        button_plc_2.grid(row=0, column=4,padx=5,pady=5, sticky='e')
+        button_plc_1.grid(row=0, column=7,padx=5,pady=5, sticky='e')
+        button_plc_2.grid(row=0, column=8,padx=5,pady=5, sticky='e')
 
 
 
