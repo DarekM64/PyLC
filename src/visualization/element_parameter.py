@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Label, Entry
+from tkinter import Toplevel, Label, Entry, IntVar
 from src.ladder.ladder_elements import * 
 
 
@@ -9,10 +9,25 @@ from src.ladder.ladder_elements import *
 def create_setting_window(parent, element):
         top = None 
 
-        if isinstance(element, Contact):
-            top = Toplevel(parent,width = 500, height = 300)
-            Label(top, text=element.connected_data_type).pack()
-            Entry(top, show=element.connected_data_address).pack()
+        if isinstance(element, Contact) or isinstance(element, Coil):
+            top = Toplevel(parent,width = 700, height = 500)
+            label = Label(top, text=element.connected_data_type)
+            address = IntVar()
+            address.set(element.connected_data_address)
+            entry = Entry(top, textvariable=address, justify='center')
 
+            
+           
+
+            #entry.insert(0,element.connected_data_address)
+            
+            label.grid(row=0,column=0, pady=20)
+            entry.grid(row=0,column=1,pady=20)
+
+            def on_closing():
+                element.connected_data_address = address.get()
+                top.destroy()
+
+            top.protocol("WM_DELETE_WINDOW", on_closing)
 
         return top

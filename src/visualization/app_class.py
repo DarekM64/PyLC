@@ -81,6 +81,7 @@ class App(ctk.CTk):
 
         # connect textbox scroll event to CTk scrollbar
         canvas.configure(yscrollcommand=ctk_canvas_scrollbar.set)
+        self.element_settings = None
         self.field_width=80
         self.field_height=80
         self.field_padding=0
@@ -104,8 +105,13 @@ class App(ctk.CTk):
                 ladder_grid.set_element((event.y-1) // y_height, (event.x-1) // x_width, self.selected_tool)
                 draw_element(canvas, aligned_x, aligned_y, shape_type=self.selected_tool)      
             else:
+                if self.element_settings is not None:
+                   self.element_settings.destroy()
                 element = ladder_grid.get_element((event.y-1) // y_height, (event.x-1) // x_width)
-                create_setting_window(canvas,element)
+                self.element_settings = create_setting_window(canvas,element)
+                geometry_string=f'+{event.x}+{int(event.y+tools_frame._current_height)}'
+                print(geometry_string)
+                self.element_settings.geometry(geometry_string)
             #draw_coil(canvas,aligned_x,aligned_y)
 
 
