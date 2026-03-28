@@ -7,9 +7,9 @@ from tkinter import *
 #in project imports
 from src.visualization.canvas_elements import *
 from ladder_canvas import create_fields
-from src.program.model import Ladder_grid
+from src.program.model import Model
 from tool_button import create_button
-
+from element_parameter import create_setting_window
 
 LADDER_ROWS = 20
 LADDER_COLUMNS = 16
@@ -18,7 +18,7 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         #program
-        ladder_grid= Ladder_grid(rows=LADDER_ROWS, cols=LADDER_COLUMNS)
+        ladder_grid= Model(rows=LADDER_ROWS, cols=LADDER_COLUMNS)
         
         self.title("PyLC")
         self.geometry("1060x800")
@@ -99,9 +99,13 @@ class App(ctk.CTk):
             aligned_x = event.x - (event.x-1) % x_width
             aligned_y = event.y - event.y % y_height + self.field_width//2
             print(f'To function x:{(event.y-1) // y_height}, y:{(event.x-1) // x_width}')
-            ladder_grid.set_element((event.y-1) // y_height, (event.x-1) // x_width)
+
             if self.selected_tool !='pointer':
-                draw_element(canvas, aligned_x, aligned_y, shape_type=self.selected_tool)
+                ladder_grid.set_element((event.y-1) // y_height, (event.x-1) // x_width, self.selected_tool)
+                draw_element(canvas, aligned_x, aligned_y, shape_type=self.selected_tool)      
+            else:
+                element = ladder_grid.get_element((event.y-1) // y_height, (event.x-1) // x_width)
+                create_setting_window(canvas,element)
             #draw_coil(canvas,aligned_x,aligned_y)
 
 
