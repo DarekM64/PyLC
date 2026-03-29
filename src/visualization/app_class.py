@@ -14,6 +14,7 @@ from element_parameter import create_setting_window
 LADDER_ROWS = 20
 LADDER_COLUMNS = 16
 
+#TODO Clean class for more organized code
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -110,7 +111,6 @@ class App(ctk.CTk):
                 element = ladder_grid.get_element((event.y-1) // y_height, (event.x-1) // x_width)
                 self.element_settings = create_setting_window(canvas,element)
                 geometry_string=f'+{event.x}+{int(event.y+tools_frame._current_height)}'
-                print(geometry_string)
                 self.element_settings.geometry(geometry_string)
             #draw_coil(canvas,aligned_x,aligned_y)
 

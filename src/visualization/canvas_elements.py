@@ -1,5 +1,7 @@
 from tkinter import *
 
+#TODO change drawing logic to remove not used items in canvas instead of drawing on top
+#TODO link the appearance of an element to the state of the object from the model
 
 def draw_contact(canvas:Canvas,x1,y1,color='black', size=80):
     '''Function to draw contact in canvas'''
@@ -118,4 +120,6 @@ def draw_pointer(canvas:Canvas, x1, y1, color='yellow', size=80):
     clear_canvas(canvas, x1, y1-size/2, size)
     canvas.create_line(x1+padding_sign, y1, x1+size-padding_sign, y1, fill=color,width=padding_sign) 
     canvas.create_line(x1+size/2, y1+size/2-padding_sign, x1+size/2, y1-size/2+padding_sign, fill=color,width=padding_sign) 
-    
+
+def draw_small_text(canvas:Canvas, x1, y1, color='black'):
+    canvas.create_rectangle((x1,y1), (x1+size, y1+size),fill='light blue', activeoutline='yellow')

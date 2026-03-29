@@ -20,6 +20,8 @@ class Model():
         new_element=None
         if element=='contact':
             new_element= Contact()
+        if element=='coil':
+            new_element= Coil()
         self.ladder_model_grid[grid_x][grid_y] = new_element
 
     def get_element(self, grid_x, grid_y):
