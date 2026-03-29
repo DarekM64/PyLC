@@ -2,6 +2,11 @@ from src.ladder.ladder_elements import *
 from src.plc.plc import *
 
 class Model():
+    '''Connects data for graphic presentation and rung logic
+        ladder_model_grid:  list of elements tied to [x][y] node
+                            this provides data to create plc rung logic
+                            and canvas drawing
+    '''
     def __init__(self, rows=20, cols=16):
         self.initialize_program(rows, cols)
         self.plc=PLC()
@@ -10,6 +15,7 @@ class Model():
         self.selected_element = selected_element
 
     def initialize_program(self,rows, cols):
+        '''Creates empty list of elements for clean ladder'''
         self.ladder_model_grid = [['Empty' for j in range(cols)] for i in range(rows)]
 
     
