@@ -8,6 +8,7 @@ from tkinter import *
 #visual
 from src.visualization.menu import AppMenu
 from src.visualization.tools import create_frame_tools
+from src.visualization.workspace_canvas import init_workspace
 
 from src.visualization.canvas_elements import *
 from ladder_canvas import create_fields
@@ -22,47 +23,31 @@ class App(ctk.CTk):
         super().__init__()
 
         menu = AppMenu(self)
+        
         #program
-        ladder_grid= Model()
+        ladder_model= Model()
         
         self.title("PyLC")
         self.geometry("1060x800")
 
-        #Functions
-
-        
         
         #frames inside main window, tool section bar, scrollable canvas below for creating ladder
 
-        tools_frame = create_frame_tools(self)
-        canvas_frame = ctk.CTkFrame(master=self,
-                                    bg_color='green',
-                                    fg_color='green',)
+        self.tools_frame = create_frame_tools(self)
+        _list_buttons = self.tools_frame.winfo_children()
+        _list_buttons[0].bind("<Button-1>", lambda event: ladder_model.select_tool('coil'))
+        _list_buttons[1].bind("<Button-1>", lambda event: ladder_model.select_tool('contact'))
+        _list_buttons[2].bind("<Button-1>", lambda event: ladder_model.select_tool('line'))
+        _list_buttons[3].bind("<Button-1>", lambda event: ladder_model.select_tool('split'))
+        _list_buttons[4].bind("<Button-1>", lambda event: ladder_model.select_tool('join'))
+        _list_buttons[5].bind("<Button-1>", lambda event: ladder_model.select_tool('clear'))
+        _list_buttons[6].bind("<Button-1>", lambda event: ladder_model.select_tool('pointer'))
+        _list_buttons[7].bind("<Button-1>", lambda event: ladder_model.select_tool('stop'))
+        _list_buttons[8].bind("<Button-1>", lambda event: ladder_model.select_tool('start'))
 
-
-        
-        canvas_frame.pack(side='bottom',fill='both', expand=True)
-
-        canvas_frame.grid_rowconfigure(0, weight=1) 
-        canvas_frame.grid_columnconfigure(0, weight=1)
-
-        # create scrollable textbox
-        canvas = Canvas(master=canvas_frame,scrollregion=(0,0,1000,3000))
-        canvas.grid(row=0, column=0, sticky="nsew",padx=0,pady=0)
-        # create CTk scrollbar
-        ctk_canvas_scrollbar = ctk.CTkScrollbar(canvas_frame, command=canvas.yview, )
-        ctk_canvas_scrollbar.grid(row=0, column=1, sticky="ns")
-
-        # connect textbox scroll event to CTk scrollbar
-        canvas.configure(yscrollcommand=ctk_canvas_scrollbar.set)
+        self.canvas_frame = init_workspace(self)
         self.element_settings = None
-        self.field_width=80
-        self.field_height=80
-        self.field_padding=0
-        self.field_list = create_fields(canvas, 
-                                        rows=LADDER_ROWS,
-                                        cols=LADDER_COLUMNS,
-                                        x_size=self.field_width, y_size = self.field_width, padding = self.field_padding)
+
         
         def click_handler(event):
             '''calculate x,y index  of clickecd field'''
@@ -90,29 +75,17 @@ class App(ctk.CTk):
 
         canvas.bind("<Button-1>", click_handler)
 
-        self.selected_tool='coil'
-        self.selected_action='none'
-        def select_tool(tool):
-              self.selected_tool=tool
-              print(self.selected_tool)
-        def select_plc_action(action):
-              self.selected_action=action
+       
+        
               
 
+        
+        
+            
 
-
-        button1.bind("<Button-1>", lambda event: select_tool('coil'))
-        button2.bind("<Button-1>", lambda event: select_tool('contact'))
-        button3.bind("<Button-1>", lambda event: select_tool('line'))
-        button4.bind("<Button-1>", lambda event: select_tool('split'))
-        button5.bind("<Button-1>", lambda event: select_tool('join'))
-        button6.bind("<Button-1>", lambda event: select_tool('clear'))
-        button7.bind("<Button-1>", lambda event: select_tool('pointer'))
+    
 
         
-
-        button_plc_1.bind("<Button-1>", lambda event: select_plc_action('stop'))
-        button_plc_2.bind("<Button-1>", lambda event: select_plc_action('start'))
 
         
 

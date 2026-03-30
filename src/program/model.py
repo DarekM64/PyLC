@@ -10,6 +10,8 @@ class Model():
     def __init__(self, rows=20, cols=16):
         self.initialize_program(rows, cols)
         self.plc=PLC()
+        self.selected_tool='coil'
+        self.selected_action='none'
 
     def set_Selected_Element(self, selected_element):
         self.selected_element = selected_element
@@ -19,7 +21,11 @@ class Model():
         self.ladder_model_grid = [['Empty' for j in range(cols)] for i in range(rows)]
 
     
-  
+    def select_tool(self, tool):
+        self.selected_tool=tool
+            
+    def select_plc_action(self, action):
+        self.selected_action=action
 
 
     def set_element(self, grid_x, grid_y, element):
@@ -32,3 +38,9 @@ class Model():
 
     def get_element(self, grid_x, grid_y):
         return self.ladder_model_grid[grid_x][grid_y]
+    
+_tools_set=('coil', 'contact', 'node', 'vertical_line', 'horizontal_line',
+            'cursor', 'delete')
+
+_actions_set=('none', 'start', 'stop')
+            
