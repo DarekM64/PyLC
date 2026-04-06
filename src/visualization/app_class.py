@@ -13,7 +13,6 @@ from src.visualization.workspace_canvas import init_workspace
 from src.visualization.canvas_elements import *
 from ladder_canvas import create_fields
 from src.program.model import Model
-from tool_button import create_button
 from element_parameter import create_setting_window
 
 
@@ -25,7 +24,7 @@ class App(ctk.CTk):
         menu = AppMenu(self)
         
         #program
-        ladder_model= Model()
+        self.ladder_model= Model()
         
         self.title("PyLC")
         self.geometry("1060x800")
@@ -35,45 +34,46 @@ class App(ctk.CTk):
 
         self.tools_frame = create_frame_tools(self)
         _list_buttons = self.tools_frame.winfo_children()
-        _list_buttons[0].bind("<Button-1>", lambda event: ladder_model.select_tool('coil'))
-        _list_buttons[1].bind("<Button-1>", lambda event: ladder_model.select_tool('contact'))
-        _list_buttons[2].bind("<Button-1>", lambda event: ladder_model.select_tool('line'))
-        _list_buttons[3].bind("<Button-1>", lambda event: ladder_model.select_tool('split'))
-        _list_buttons[4].bind("<Button-1>", lambda event: ladder_model.select_tool('join'))
-        _list_buttons[5].bind("<Button-1>", lambda event: ladder_model.select_tool('clear'))
-        _list_buttons[6].bind("<Button-1>", lambda event: ladder_model.select_tool('pointer'))
-        _list_buttons[7].bind("<Button-1>", lambda event: ladder_model.select_tool('stop'))
-        _list_buttons[8].bind("<Button-1>", lambda event: ladder_model.select_tool('start'))
+        _list_buttons[0].bind("<Button-1>", lambda event: self.ladder_model.select_tool('coil'))
+        _list_buttons[1].bind("<Button-1>", lambda event: self.ladder_model.select_tool('contact'))
+        _list_buttons[2].bind("<Button-1>", lambda event: self.ladder_model.select_tool('line_horizontal'))
+        _list_buttons[3].bind("<Button-1>", lambda event: self.ladder_model.select_tool('line_vertical'))
+        _list_buttons[4].bind("<Button-1>", lambda event: self.ladder_model.select_tool('delete_element'))
+        _list_buttons[5].bind("<Button-1>", lambda event: self.ladder_model.select_tool('delete_vertical'))
+        _list_buttons[6].bind("<Button-1>", lambda event: self.ladder_model.select_tool('cursor'))
+        _list_buttons[7].bind("<Button-1>", lambda event: self.ladder_model.select_tool('stop'))
+        _list_buttons[8].bind("<Button-1>", lambda event: self.ladder_model.select_tool('start'))
 
-        self.canvas_frame = init_workspace(self)
+        canvas_frame = init_workspace(self)
+        self.ladder_model.attach_canvas(canvas_frame)
         self.element_settings = None
-
+        self.ladder_model.initialize_program(20, 16, 80)
         
-        def click_handler(event):
-            '''calculate x,y index  of clickecd field'''
-            print(f'x={event.x}, y={event.y}')
+        # def click_handler(event):
+        #     '''calculate x,y index  of clickecd field'''
+        #     print(f'x={event.x}, y={event.y}')
 
 
-            x_width = self.field_width + self.field_padding
-            y_height = self.field_height + self.field_padding
-            aligned_x = event.x - (event.x-1) % x_width
-            aligned_y = event.y - event.y % y_height + self.field_width//2
-            print(f'To function x:{(event.y-1) // y_height}, y:{(event.x-1) // x_width}')
+        #     x_width = self.field_width + self.field_padding
+        #     y_height = self.field_height + self.field_padding
+        #     aligned_x = event.x - (event.x-1) % x_width
+        #     aligned_y = event.y - event.y % y_height + self.field_width//2
+        #     print(f'To function x:{(event.y-1) // y_height}, y:{(event.x-1) // x_width}')
 
-            if self.selected_tool !='pointer':
-                ladder_grid.set_element((event.y-1) // y_height, (event.x-1) // x_width, self.selected_tool)
-                draw_element(canvas, aligned_x, aligned_y, shape_type=self.selected_tool)      
-            else:
-                if self.element_settings is not None:
-                   self.element_settings.destroy()
-                element = ladder_grid.get_element((event.y-1) // y_height, (event.x-1) // x_width)
-                self.element_settings = create_setting_window(canvas,element)
-                geometry_string=f'+{event.x}+{int(event.y+tools_frame._current_height)}'
-                self.element_settings.geometry(geometry_string)
-            #draw_coil(canvas,aligned_x,aligned_y)
+        #     if self.selected_tool !='pointer':
+        #         ladder_grid.set_element((event.y-1) // y_height, (event.x-1) // x_width, self.selected_tool)
+        #         draw_element(canvas, aligned_x, aligned_y, shape_type=self.selected_tool)      
+        #     else:
+        #         if self.element_settings is not None:
+        #            self.element_settings.destroy()
+        #         element = ladder_grid.get_element((event.y-1) // y_height, (event.x-1) // x_width)
+        #         self.element_settings = create_setting_window(canvas,element)
+        #         geometry_string=f'+{event.x}+{int(event.y+tools_frame._current_height)}'
+        #         self.element_settings.geometry(geometry_string)
+        #     #draw_coil(canvas,aligned_x,aligned_y)
 
 
-        canvas.bind("<Button-1>", click_handler)
+        # canvas.bind("<Button-1>", click_handler)
 
        
         

@@ -9,7 +9,7 @@ def init_workspace(master,bg_color='green', fg_color='green'):
 
 
     
-    canvas_frame.pack(side='bottom',fill='both', expand=True)
+    canvas_frame.pack(side='bottom',fill='y', expand=True)
 
     canvas_frame.grid_rowconfigure(0, weight=1) 
     canvas_frame.grid_columnconfigure(0, weight=1)
