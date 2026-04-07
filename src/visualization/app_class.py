@@ -14,7 +14,7 @@ from src.visualization.canvas_elements import *
 from ladder_canvas import create_fields
 from src.program.model import Model
 from element_parameter import create_setting_window
-
+from src.program.model_search import model_search
 
 #TODO Clean class for more organized code
 class App(ctk.CTk):
@@ -26,6 +26,7 @@ class App(ctk.CTk):
         #program
         self.ladder_model= Model()
         
+        menu.connectCompile(model_search, self.ladder_model.ladder_model_grid)
         self.title("PyLC")
         self.geometry("1060x800")
 

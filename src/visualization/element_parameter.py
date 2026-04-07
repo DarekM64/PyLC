@@ -6,9 +6,10 @@ from src.ladder.ladder_elements import *
 
    # def __init__(self, parent, element):
 
-def create_setting_window(parent, element):
+def create_setting_window(parent, element_model):
         top = None 
-
+        #Get ladder object from model
+        element = element_model.element
         if isinstance(element, Contact) or isinstance(element, Coil):
             top = Toplevel(parent,width = 700, height = 500)
             label = Label(top, text=element.connected_data_type)
@@ -26,6 +27,8 @@ def create_setting_window(parent, element):
 
             def on_closing():
                 element.connected_data_address = address.get()
+                label_text= element.connected_data_type + ' ' + str(element.connected_data_address)
+                parent.itemconfig(element_model.label, text= label_text)
                 top.destroy()
 
             top.protocol("WM_DELETE_WINDOW", on_closing)

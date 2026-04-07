@@ -3,6 +3,7 @@ from src.plc.plc import *
 
 from src.program.model_visualizer import *
 import src.visualization.canvas_elements as canvas_elements
+import src.visualization.element_parameter as element_parameter
 
 class Model():
     '''Connects data for graphic presentation and rung logic
@@ -40,61 +41,85 @@ class Model():
         self.selected_action=action
 
 
-
-
     def get_element(self, grid_x, grid_y):
         return self.ladder_model_grid[grid_x][grid_y]
     
+   
+
     def add_element(self,grid_x, grid_y):
         canvas_x,canvas_y= calc_position_element(grid_x, grid_y, self.grid_width)
         #group of elements managed similar way in model
-        if self.selected_tool in _tools_ladder_element:
-            #Create ladder logic element and canvas elements.  
-            match self.selected_tool:
-                case 'contact':
-                    element=Contact()
-                    ids=draw_contact(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)  
-                case 'coil':
-                    element=Coil()  
-                    ids=draw_coil(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)  
-                case 'line_horizontal':
-                    element=Line()  
-                    ids=draw_horizontal_line(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)  
-               
-            
-            #Element exist, remove old add new one
-            if (grid_x,grid_y) in self.ladder_model_grid:
-                if self.ladder_model_grid[(grid_x, grid_y)].element != None:
-                    delete_canvas_elements(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].element_canvas_id)
-                    self.ladder_model_grid[(grid_x, grid_y)].element = element
-                    self.ladder_model_grid[(grid_x, grid_y)].element_canvas_id = ids
-                else:
-                    #node exist, but no element in grid, add new one       
-                    self.ladder_model_grid[(grid_x, grid_y)].element = element
-                    self.ladder_model_grid[(grid_x, grid_y)].element_canvas_id = ids
-            #No element or node, create new grid element
-            else:
-                modelGridElement = ModelGridElement(grid_x, grid_y, element_canvas_id=ids, element=element)
-                self.ladder_model_grid[(grid_x, grid_y)]=modelGridElement
 
-        #group of elements managedd similwar way in model
-        elif self.selected_tool in _tools_ladder_node:
-            node = Line()
-            ids=draw_vertical_line(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)
+        match self.selected_tool:
+            case 'contact':
+                element=Contact() 
+                ids=draw_contact(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)
+            case 'coil':
+                element=Coil()
+                ids=draw_coil(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)
+            case 'line_horizontal':
+                element=Line()  
+                ids=draw_horizontal_line(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)
+        
+        label_text= element.connected_data_type + ' ' + str(element.connected_data_address)
+        label = draw_label(self.canvas, canvas_x, canvas_y, text=label_text)   
+        
+        #Element exist, remove old add new one
+        
+        #if self.ladder_model_grid[(grid_x, grid_y)].element != None:
+        if (grid_x, grid_y) in self.ladder_model_grid:
+            delete_canvas_elements(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].element_canvas_id)
+            delete_canvas_element(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].label)
+            self.ladder_model_grid[(grid_x, grid_y)].element = element
+            self.ladder_model_grid[(grid_x, grid_y)].element_canvas_id = ids
+            self.ladder_model_grid[(grid_x, grid_y)].label = label
 
-            if (grid_x,grid_y) in self.ladder_model_grid:
-                if self.ladder_model_grid[(grid_x, grid_y)].element != None:
-                    delete_canvas_elements(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].node_canvas_id)
-                    self.ladder_model_grid[(grid_x, grid_y)].node = node
-                    self.ladder_model_grid[(grid_x, grid_y)].node_canvas_id = ids
-                else:
-                    #node exist, but no element in grid, add new one       
-                    self.ladder_model_grid[(grid_x, grid_y)].element = element
-                    self.ladder_model_grid[(grid_x, grid_y)].node_canvas_id = ids
-            #No element or node, create new grid element
+        #No element or node, create new grid element
+        else:
+            modelGridElement = ModelGridElement(grid_x, grid_y, element_canvas_id=ids, element=element, label=label)
+            self.ladder_model_grid[(grid_x, grid_y)]=modelGridElement
+
+    def add_node(self,grid_x, grid_y):
+        canvas_x,canvas_y= calc_position_element(grid_x, grid_y, self.grid_width)
+        #group of elements managed similar way in model
+
+        node = Line()
+        ids=draw_vertical_line(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)
+
+        if (grid_x,grid_y) in self.ladder_model_grid:
+            if self.ladder_model_grid[(grid_x, grid_y)].node != None:
+                delete_canvas_elements(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].node_canvas_id)
+                self.ladder_model_grid[(grid_x, grid_y)].node = node
+                self.ladder_model_grid[(grid_x, grid_y)].node_canvas_id = ids
             else:
-                modelGridElement = ModelGridElement(grid_x, grid_y, node_canvas_id=ids, node=node)
-                self.ladder_model_grid[(grid_x, grid_y)]=modelGridElement
+                #node exist, but no element in grid, add new one       
+                self.ladder_model_grid[(grid_x, grid_y)].node = node
+                self.ladder_model_grid[(grid_x, grid_y)].node_canvas_id = ids
+        #No element or node, create new grid element
+        else:
+            modelGridElement = ModelGridElement(grid_x, grid_y, node_canvas_id=ids, node=node)
+            self.ladder_model_grid[(grid_x, grid_y)]=modelGridElement
+
+    def delete_element(self, grid_x, grid_y):
+        '''Deleting element from model'''
+        if (grid_x,grid_y) in self.ladder_model_grid:
+            if self.ladder_model_grid[(grid_x, grid_y)].element != None:
+                delete_canvas_elements(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].element_canvas_id)
+                delete_canvas_element(self.canvas,  self.ladder_model_grid[(grid_x, grid_y)].label)
+                self.ladder_model_grid[(grid_x, grid_y)].element = None
+
+    def delete_node(self, grid_x, grid_y):
+        '''Deleting node (vertical_line) from model'''
+        if (grid_x,grid_y) in self.ladder_model_grid:
+            if self.ladder_model_grid[(grid_x, grid_y)].node != None:
+                delete_canvas_elements(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].node_canvas_id)
+                self.ladder_model_grid[(grid_x, grid_y)].node = None
+
+    def display_settings(self, grid_x, grid_y):
+        '''Display element settings'''
+        if (grid_x,grid_y) in self.ladder_model_grid:
+            if self.ladder_model_grid[(grid_x, grid_y)].element != None:
+               element_parameter.create_setting_window(self.canvas,  self.ladder_model_grid[(grid_x, grid_y)] )
 
     def check_element_exist(self,grid_x, grid_y):
         if (grid_x, grid_y) in self.ladder_model_grid:
@@ -116,9 +141,18 @@ class Model():
         print(f'grid_x={grid_x}, grid_y={grid_y}')
 
         print(f'element exist:{self.check_element_exist(grid_x, grid_y)}')
-        if self.selected_tool in _tools_ladder_element or self.selected_tool in _tools_ladder_node:
+        if self.selected_tool in _tools_ladder_element:
             self.add_element(grid_x, grid_y)
-
+        elif self.selected_tool in _tools_ladder_node:
+            #vertical line not allowed in first grid index
+            if grid_x > 0:
+                self.add_node(grid_x, grid_y)
+        elif self.selected_tool == 'delete_element':
+            self.delete_element(grid_x, grid_y)
+        elif self.selected_tool == 'delete_vertical':
+            self.delete_node(grid_x, grid_y)
+        elif self.selected_tool == 'cursor':
+            self.display_settings(grid_x, grid_y)
         # if self.selected_tool !='pointer':
         #     ladder_grid.set_element((event.y-1) // y_height, (event.x-1) // x_width, self.selected_tool)
         #     draw_element(canvas, aligned_x, aligned_y, shape_type=self.selected_tool)      
@@ -144,11 +178,13 @@ _actions_set=('none', 'start', 'stop')
             
 class ModelGridElement():
 
-    def __init__(self,pos_x, pos_y, element_canvas_id=None, element=None, node_canvas_id=None, node = None):
+    def __init__(self,pos_x, pos_y, element_canvas_id=None, element=None, node_canvas_id=None, node = None, label = None):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.element_canvas_id=element_canvas_id
         self.element = element
         self.node_canvas_id=node_canvas_id
         self.node = node
+        self.label = label
+        
         

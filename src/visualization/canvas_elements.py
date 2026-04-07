@@ -20,7 +20,28 @@ def draw_contact(canvas:Canvas, x1, y1, color='black', size=80):
     ids.append(canvas.create_line(x1+line_width*7, y1-line_width*3, x1+line_width*7, y1+line_width*3, fill=test_column_color, width=line_width))
 
     return ids
+
+# def draw_contact2(canvas:Canvas, x1, y1, color='black', size=80):
+#     '''Draw contact in canvas'''
+#     ids=[]
     
+#     #clear_canvas(canvas, x1, y1-size/2, size)
+#     line_width = size/10
+#     test_column_color = 'blue'
+#     #code below should produce -| |- sign
+#     #first horizontal segment
+#     ids.append(canvas.create_line(x1, y1, x1+line_width*3, y1, fill=color,width=line_width)) 
+#     #second horizontal segment
+#     ids.append(canvas.create_line(x1+line_width*7, y1, x1+size, y1, fill=color, width=line_width)) 
+#     #first vertical segment
+#     ids.append(canvas.create_line(x1+line_width*3, y1-line_width*3, x1+line_width*3, y1+line_width*3, fill=test_column_color, width=line_width))
+#     #second vertical segment
+#     ids.append(canvas.create_line(x1+line_width*7, y1-line_width*3, x1+line_width*7, y1+line_width*3, fill=test_column_color, width=line_width))
+#     #text=ele
+#     #canvas.create_text(x1+line_width, y1+size - line_width,text='')
+
+#     return ids
+
 def draw_coil(canvas:Canvas,x1,y1,color='black', size=80):
     '''Draw coil in canvas'''
     ids=[]
@@ -105,7 +126,9 @@ def draw_start(canvas:Canvas, x1, y1, color='yellow', size=80):
     #                         fill = color)
     # 
 
-
+def draw_label(canvas:Canvas, x1, y1, color='blue', size=80, text='?'):
+    label = canvas.create_text(x1+size//2, y1+size//2,text=text)
+    return label
 
 def draw_small_text(canvas:Canvas, x1, y1, color='black'):
     canvas.create_rectangle((x1,y1), (x1+size, y1+size),fill='light blue', activeoutline='yellow')

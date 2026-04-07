@@ -9,6 +9,8 @@ def delete_canvas_elements(canvas, ids):
     for id in ids:
         canvas.delete(id)
 
+def delete_canvas_element(canvas, id):
+    canvas.delete(id)
 
 def create_net(canvas:Canvas, size_px:int=2, rows:int=20, columns:int=16, space:int=80):
     '''
@@ -29,3 +31,7 @@ def create_net(canvas:Canvas, size_px:int=2, rows:int=20, columns:int=16, space:
 
 def calc_position_element(x, y, grid_width):
         return x*grid_width, y*grid_width+grid_width//2
+
+# def create_label(grid_x, grid_y, element):
+#      text = element.connected_data_type + element.connected_data_address
+#      canvas.create_text(x1+line_width, y1+size - line_width,text='')
