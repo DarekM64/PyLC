@@ -1,6 +1,7 @@
 
 
-
+#TODO Add clock feature for simulation
+#TODO Add binding plc data and ladder elements
 
 class PLC:
 

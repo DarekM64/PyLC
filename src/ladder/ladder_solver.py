@@ -43,7 +43,7 @@ def solve_rung_path(element):
         #return False to conitnue cheking other nodes if exist
         return False
 
-    if element.type == 'split' or element.type == 'join':
+    if element.type == 'line' or element.type == 'join':
 
         for next_element in element.connected_elements:
             #try path for every next element from split node
@@ -54,14 +54,14 @@ def solve_rung_path(element):
         #every path from split return False
         return False
 
-contact_1 = Contact(connected_data=True)
-contact_2 = Contact(connected_data=True)
-node_1 = Element(connected_data=True,type='split')
-contact_3 = Contact(connected_data=False)
-contact_4 = Contact(connected_data=True)
-node_2 = Element(connected_data=True,type='join')
-coil_1 = Coil(connected_data=True)
-coil_2 = Coil(connected_data=True)
+contact_1 = Contact()
+contact_2 = Contact()
+node_1 = Node()
+contact_3 = Contact()
+contact_4 = Contact()
+node_2 = Node()
+coil_1 = Coil()
+coil_2 = Coil()
 
 contact_1.connected_elements.append(contact_2)
 contact_2.connected_elements.append(node_1)

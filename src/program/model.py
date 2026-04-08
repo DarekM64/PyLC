@@ -61,8 +61,11 @@ class Model():
                 element=Line()  
                 ids=draw_horizontal_line(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)
         
-        label_text= element.connected_data_type + ' ' + str(element.connected_data_address)
-        label = draw_label(self.canvas, canvas_x, canvas_y, text=label_text)   
+        use_label = not isinstance(element, Line)
+        label=None
+        if use_label:
+            label_text= element.connected_data_type + ' ' + str(element.connected_data_address)
+            label = draw_label(self.canvas, canvas_x, canvas_y, text=label_text)   
         
         #Element exist, remove old add new one
         
@@ -72,12 +75,15 @@ class Model():
             delete_canvas_element(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].label)
             self.ladder_model_grid[(grid_x, grid_y)].element = element
             self.ladder_model_grid[(grid_x, grid_y)].element_canvas_id = ids
-            self.ladder_model_grid[(grid_x, grid_y)].label = label
+            if use_label:
+                self.ladder_model_grid[(grid_x, grid_y)].label = label
 
         #No element or node, create new grid element
         else:
             modelGridElement = ModelGridElement(grid_x, grid_y, element_canvas_id=ids, element=element, label=label)
             self.ladder_model_grid[(grid_x, grid_y)]=modelGridElement
+
+        #update_neighbours(grid_x, grid_y, self.ladder_model_grid, element, action='add_element')
 
     def add_node(self,grid_x, grid_y):
         canvas_x,canvas_y= calc_position_element(grid_x, grid_y, self.grid_width)
@@ -136,8 +142,8 @@ class Model():
 
         print(f'x={x}, y={y}')
         #calc grid index
-        grid_x = x//self.grid_width
-        grid_y = y//self.grid_width
+        grid_y = int(x//self.grid_width)
+        grid_x = int(y//self.grid_width)
         print(f'grid_x={grid_x}, grid_y={grid_y}')
 
         print(f'element exist:{self.check_element_exist(grid_x, grid_y)}')

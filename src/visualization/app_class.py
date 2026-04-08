@@ -26,7 +26,7 @@ class App(ctk.CTk):
         #program
         self.ladder_model= Model()
         
-        menu.connectCompile(model_search, self.ladder_model.ladder_model_grid)
+        menu.connectCompile(model_search, self.ladder_model.ladder_model_grid, 80)
         self.title("PyLC")
         self.geometry("1060x800")
 

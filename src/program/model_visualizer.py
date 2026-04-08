@@ -30,7 +30,8 @@ def create_net(canvas:Canvas, size_px:int=2, rows:int=20, columns:int=16, space:
         next_y += space
 
 def calc_position_element(x, y, grid_width):
-        return x*grid_width, y*grid_width+grid_width//2
+        #return x*grid_width, y*grid_width+grid_width//2
+        return y*grid_width, x*grid_width+grid_width//2
 
 # def create_label(grid_x, grid_y, element):
 #      text = element.connected_data_type + element.connected_data_address

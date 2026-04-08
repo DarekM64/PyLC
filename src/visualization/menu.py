@@ -38,8 +38,8 @@ class AppMenu():
 
             self.menu = menu
 
-        def connectCompile(self, function, model):
-            self.dropdown3.add_option(option="Compile", command= partial(function, model))
+        def connectCompile(self, function, model, size):
+            self.dropdown3.add_option(option="Compile", command= partial(function, model, size))
 
         def open_file(self):
             return filedialog.askopenfilename()
