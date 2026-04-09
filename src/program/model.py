@@ -1,7 +1,11 @@
+import threading
+import time
+
 from src.ladder.ladder_elements import *
 from src.plc.plc import *
 
 from src.program.model_visualizer import *
+from src.program.model_search import *
 import src.visualization.canvas_elements as canvas_elements
 import src.visualization.element_parameter as element_parameter
 
@@ -18,6 +22,7 @@ class Model():
         self.selected_action='none'
         self.ladder_model_grid={}
         self.canvas:Canvas=None
+        self.compiled = False
 
     def attach_canvas(self, canvas:Canvas):
         self.canvas=canvas
@@ -39,6 +44,15 @@ class Model():
             
     def select_plc_action(self, action):
         self.selected_action=action
+
+        if self.selected_action == 'start':
+            if not self.compiled:
+                not_compiled_box()
+            else:
+                self.plc.start()
+        elif self.selected_action == 'stop':
+            self.plc.stop()
+
 
 
     def get_element(self, grid_x, grid_y):
@@ -159,20 +173,14 @@ class Model():
             self.delete_node(grid_x, grid_y)
         elif self.selected_tool == 'cursor':
             self.display_settings(grid_x, grid_y)
-        # if self.selected_tool !='pointer':
-        #     ladder_grid.set_element((event.y-1) // y_height, (event.x-1) // x_width, self.selected_tool)
-        #     draw_element(canvas, aligned_x, aligned_y, shape_type=self.selected_tool)      
-        # else:
-        #     if self.element_settings is not None:
-        #         self.element_settings.destroy()
-        #     element = ladder_grid.get_element((event.y-1) // y_height, (event.x-1) // x_width)
-        #     self.element_settings = create_setting_window(canvas,element)
-        #     geometry_string=f'+{event.x}+{int(event.y+tools_frame._current_height)}'
-        #     self.element_settings.geometry(geometry_string)
-        #draw_coil(canvas,aligned_x,aligned_y)
 
+        self.compiled = False
 
-        
+    def compile(self):
+        rungs = model_search(self.ladder_model_grid, self.grid_width)
+        self.plc.rungs = rungs
+        self.compiled = True
+
     
 _tools_set=('coil', 'contact', 'line_vertical', 'line_horizontal',
                 'cursor', 'delete_element', 'delete_vertical')

@@ -26,7 +26,7 @@ class App(ctk.CTk):
         #program
         self.ladder_model= Model()
         
-        menu.connectCompile(model_search, self.ladder_model.ladder_model_grid, 80)
+        menu.connectCompile(self.ladder_model.compile)
         self.title("PyLC")
         self.geometry("1060x800")
 
@@ -42,8 +42,8 @@ class App(ctk.CTk):
         _list_buttons[4].bind("<Button-1>", lambda event: self.ladder_model.select_tool('delete_element'))
         _list_buttons[5].bind("<Button-1>", lambda event: self.ladder_model.select_tool('delete_vertical'))
         _list_buttons[6].bind("<Button-1>", lambda event: self.ladder_model.select_tool('cursor'))
-        _list_buttons[7].bind("<Button-1>", lambda event: self.ladder_model.select_tool('stop'))
-        _list_buttons[8].bind("<Button-1>", lambda event: self.ladder_model.select_tool('start'))
+        _list_buttons[7].bind("<Button-1>", lambda event: self.ladder_model.select_plc_action('stop'))
+        _list_buttons[8].bind("<Button-1>", lambda event: self.ladder_model.select_plc_action('start'))
 
         canvas_frame = init_workspace(self)
         self.ladder_model.attach_canvas(canvas_frame)
