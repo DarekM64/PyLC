@@ -1,7 +1,5 @@
 from tkinter import *
 
-#TODO change drawing logic to remove not used items in canvas instead of drawing on top
-#TODO link the appearance of an element to the state of the object from the model
 
 def draw_contact(canvas:Canvas, x1, y1, color='black', size=80):
     '''Draw contact in canvas'''

@@ -4,8 +4,6 @@ import time
 from src.ladder.ladder_elements import *
 from src.ladder.ladder_solver import *
 
-#TODO Add clock feature for simulation
-#TODO Add binding plc data and ladder elements
 
 class PLC:
 

@@ -26,7 +26,6 @@ class Coil(Element):
         self.connected_data = connected_data
      
 class Contact(Element):
-    #TODO add reading data from PLC
     def __init__(self, connected_data_type='M', connected_data_address: int=0, normal_open: bool=True, connected_data=[True]):
         self.connected_elements = []
         self.type ='contact'
