@@ -30,70 +30,45 @@ def search_element(grid_x, grid_y, ladder_model_grid, element,rung:Rung):
     #If there is node on the right connect it to element
     if (grid_x, grid_y+1) in ladder_model_grid:
         if ladder_model_grid[grid_x, grid_y+1].node is not None:
-                element.connected_elements.append(ladder_model_grid[grid_x, grid_y+1].node)
-                search_node(grid_x, grid_y+1, ladder_model_grid, ladder_model_grid[grid_x, grid_y+1].node, rung)
+            element.connected_elements.append(ladder_model_grid[grid_x, grid_y+1].node)
+            search_node(grid_x, grid_y+1, ladder_model_grid, ladder_model_grid[grid_x, grid_y+1].node, rung)
         #If there is element on the right connect it to element
         elif ladder_model_grid[grid_x, grid_y+1].element is not None:
-                element.connected_elements.append(ladder_model_grid[grid_x, grid_y+1].element)
-                #When last element is coil end searching path
-                if isinstance(ladder_model_grid[grid_x, grid_y+1].element,Coil):
-                    rung.coils.append(ladder_model_grid[grid_x, grid_y+1].element)
-                else:
-                    search_element(grid_x, grid_y+1, ladder_model_grid, ladder_model_grid[grid_x, grid_y+1].element, rung)
+            element.connected_elements.append(ladder_model_grid[grid_x, grid_y+1].element)
+            #When last element is coil end searching path
+            if isinstance(ladder_model_grid[grid_x, grid_y+1].element,Coil):
+                rung.coils.append(ladder_model_grid[grid_x, grid_y+1].element)
+            else:
+                search_element(grid_x, grid_y+1, ladder_model_grid, ladder_model_grid[grid_x, grid_y+1].element, rung)
 
 def search_node(grid_x, grid_y, ladder_model_grid, node, rung:Rung):
     '''Check if node is connected with elements and search deeper if needed'''
     #If there is element on same grid connect node to it
     if (grid_x, grid_y) in ladder_model_grid:
         if ladder_model_grid[grid_x, grid_y].element is not None:
-                node.connected_elements.append(ladder_model_grid[grid_x, grid_y].element)
-                #When last element is coil end searching path
-                if isinstance(ladder_model_grid[grid_x, grid_y+1].element,Coil):
-                    rung.coils.append(ladder_model_grid[grid_x, grid_y+1].element)
-                else:
-                    search_element(grid_x, grid_y+1, ladder_model_grid, ladder_model_grid[grid_x, grid_y+1].element, rung)
+            node.connected_elements.append(ladder_model_grid[grid_x, grid_y].element)
+            #When last element is coil end searching path
+            if isinstance(ladder_model_grid[grid_x, grid_y].element,Coil):
+                rung.coils.append(ladder_model_grid[grid_x, grid_y].element)
+            else:
+                search_element(grid_x, grid_y+1, ladder_model_grid, ladder_model_grid[grid_x, grid_y].element, rung)
     
     #If there is node below node connect to nonode
     if (grid_x+1, grid_y) in ladder_model_grid:
         if ladder_model_grid[grid_x+1, grid_y].node is not None:
-                node.connected_elements.append(ladder_model_grid[grid_x+1, grid_y].node)
-                search_node(grid_x+1, grid_y, ladder_model_grid, ladder_model_grid[grid_x+1, grid_y].node, rung)
+            node.connected_elements.append(ladder_model_grid[grid_x+1, grid_y].node)
+            search_node(grid_x+1, grid_y, ladder_model_grid, ladder_model_grid[grid_x+1, grid_y].node, rung)
         #It there is no node but element connect to element
         elif ladder_model_grid[grid_x+1, grid_y].element is not None:
-                node.connected_elements.append(ladder_model_grid[grid_x+1, grid_y].element)
-                #When last element is coil end searching path
-                if isinstance(ladder_model_grid[grid_x+1, grid_y].element,Coil):
-                    rung.coils.append(ladder_model_grid[grid_x+1, grid_y].element)
-                else:
-                    search_element(grid_x+1, grid_y, ladder_model_grid, ladder_model_grid[grid_x+1, grid_y].element, rung)
+            node.connected_elements.append(ladder_model_grid[grid_x+1, grid_y].element)
+            #When last element is coil end searching path
+            if isinstance(ladder_model_grid[grid_x+1, grid_y].element,Coil):
+                rung.coils.append(ladder_model_grid[grid_x+1, grid_y].element)
+            else:
+                search_element(grid_x+1, grid_y, ladder_model_grid, ladder_model_grid[grid_x+1, grid_y].element, rung)
 
 
-def update_neighbours(grid_x, grid_y, ladder_model_grid, element, action):
-    '''Check 4 neighbours'''
-    # if grid_x > 0 : #check element on the left
-    #     ladder_model_grid[grid_x-1][grid_y]
-    # if grid_y > 0 : #check element on the left
-    #     ladder_model_grid[grid_x][grid_y-1]
-    # if grid_x > 0 : #check element on the left
-    #     ladder_model_grid[grid_x-1][grid_y]
-    # if grid_x > 0 : #check element on the left
-    #     ladder_model_grid[grid_x-1][grid_y]
 
-    if action == 'add_element':
-        #If there is node add element to node
-        if ladder_model_grid[grid_x, grid_y].node is not None:
-            ladder_model_grid[grid_x, grid_y].node.connected_elements.append(element)
-        #or if there is element on the left add element to left element
-        elif [grid_x-1,grid_y] in ladder_model_grid:
-            if ladder_model_grid[grid_x-1][grid_y].element is not None:
-                ladder_model_grid[grid_x-1][grid_y].element.connected_elements.append(element)
-        #If there is non empty element on right
-        if ladder_model_grid[grid_x+1, grid_y] is not None:
-            #If there is node on right grid add element to node
-            if ladder_model_grid[grid_x+1][grid_y].node is not None:
-                element.connected_elements.append(ladder_model_grid[grid_x+1][grid_y].node)
-            elif ladder_model_grid[grid_x+1][grid_y].element is not None:
-                element.connected_elements.append(ladder_model_grid[grid_x+1][grid_y].element)
     
 
     

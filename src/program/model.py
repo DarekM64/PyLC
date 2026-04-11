@@ -89,8 +89,9 @@ class Model():
         
         #if self.ladder_model_grid[(grid_x, grid_y)].element != None:
         if (grid_x, grid_y) in self.ladder_model_grid:
-            delete_canvas_elements(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].element_canvas_id)
-            delete_canvas_element(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].label)
+            if self.ladder_model_grid[grid_x, grid_y].element is not None:
+                delete_canvas_elements(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].element_canvas_id)
+                delete_canvas_element(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].label)
             self.ladder_model_grid[(grid_x, grid_y)].element = element
             self.ladder_model_grid[(grid_x, grid_y)].element_canvas_id = ids
             if use_label:
