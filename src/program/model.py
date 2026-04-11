@@ -4,8 +4,9 @@ import time
 from src.ladder.ladder_elements import *
 from src.plc.plc import *
 
+from src.program.modelGridElement import ModelGridElement
 from src.program.model_visualizer import *
-from src.program.model_search import *
+from src.program.model_search import model_search
 import src.visualization.canvas_elements as canvas_elements
 import src.visualization.element_parameter as element_parameter
 
@@ -23,12 +24,15 @@ class Model():
         self.ladder_model_grid={}
         self.canvas:Canvas=None
         self.compiled = False
+        self.update_canvas = threading.Thread(target=self.update_canvas)
+        self.update_canvas.start()
+        self.close_update_canvas=False
 
     def attach_canvas(self, canvas:Canvas):
         self.canvas=canvas
         canvas.bind("<Button-1>", self.click_handler)
 
-    def set_Selected_Element(self, selected_element):
+    def set_Selected_Element(self, selected_element):   
         self.selected_element = selected_element
 
     def initialize_program(self,rows, cols, grid_width):
@@ -66,10 +70,10 @@ class Model():
 
         match self.selected_tool:
             case 'contact':
-                element=Contact() 
+                element=Contact(connected_data_type='M', connected_data_address = 0, normal_open = True, connected_data=self.plc.M[0]) 
                 ids=draw_contact(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)
             case 'coil':
-                element=Coil()
+                element=Coil(connected_data_type='M', connected_data_address = 0, normal_open = True, connected_data=self.plc.M[0])
                 ids=draw_coil(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)
             case 'line_horizontal':
                 element=Line()  
@@ -139,7 +143,11 @@ class Model():
         '''Display element settings'''
         if (grid_x,grid_y) in self.ladder_model_grid:
             if self.ladder_model_grid[(grid_x, grid_y)].element != None:
-               element_parameter.create_setting_window(self.canvas,  self.ladder_model_grid[(grid_x, grid_y)] )
+                element_parameter.create_setting_window2(self.canvas,  self.ladder_model_grid[(grid_x, grid_y)], self.plc )
+
+                
+
+            
 
     def check_element_exist(self,grid_x, grid_y):
         if (grid_x, grid_y) in self.ladder_model_grid:
@@ -181,6 +189,21 @@ class Model():
         self.plc.rungs = rungs
         self.compiled = True
 
+    def update_canvas(self):
+        while True:
+            for grid in self.ladder_model_grid.values():
+                if grid.element is not None:
+                    if not isinstance(grid.element, Line): 
+                        if self.plc.run == True:
+                            update_elements_display(self.canvas, grid)
+                        else:
+                            hide_elements_display(self.canvas, grid)
+            time.sleep(.25)
+
+            if self.close_update_canvas:
+                break
+        print('Close update canvas thread')
+
     
 _tools_set=('coil', 'contact', 'line_vertical', 'line_horizontal',
                 'cursor', 'delete_element', 'delete_vertical')
@@ -190,15 +213,6 @@ _tools_ladder_node=('line_vertical')
 
 _actions_set=('none', 'start', 'stop')
             
-class ModelGridElement():
-
-    def __init__(self,pos_x, pos_y, element_canvas_id=None, element=None, node_canvas_id=None, node = None, label = None):
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.element_canvas_id=element_canvas_id
-        self.element = element
-        self.node_canvas_id=node_canvas_id
-        self.node = node
-        self.label = label
+    
         
         

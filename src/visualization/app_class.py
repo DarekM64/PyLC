@@ -50,6 +50,12 @@ class App(ctk.CTk):
         self.element_settings = None
         self.ladder_model.initialize_program(20, 16, 80)
         
+
+
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            self.ladder_model.plc.close_thread = True
+            self.ladder_model.close_update_canvas = True
+            
         # def click_handler(event):
         #     '''calculate x,y index  of clickecd field'''
         #     print(f'x={event.x}, y={event.y}')

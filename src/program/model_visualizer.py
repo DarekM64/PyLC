@@ -2,6 +2,8 @@
 from tkinter import Canvas
 from src.visualization.canvas_elements import *
 from tkinter import messagebox
+from src.program.modelGridElement import ModelGridElement
+
 def clear_canvas(canvas):
     canvas.delete('all')
 
@@ -36,6 +38,14 @@ def calc_position_element(x, y, grid_width):
 def not_compiled_box():
      messagebox.showwarning(title='Not compiled program', message='Compile program before run')
 
+def update_elements_display(canvas, grid_element:ModelGridElement):
+     if grid_element.element.get_value():
+          canvas.itemconfig(grid_element.element_canvas_id[-1], state='normal')
+     else:
+          canvas.itemconfig(grid_element.element_canvas_id[-1], state='hidden')
+
+def hide_elements_display(canvas, grid_element:ModelGridElement):
+     canvas.itemconfig(grid_element.element_canvas_id[-1], state='hidden')
 # def create_label(grid_x, grid_y, element):
 #      text = element.connected_data_type + element.connected_data_address
 #      canvas.create_text(x1+line_width, y1+size - line_width,text='')

@@ -16,9 +16,9 @@ def model_search(ladder_model_grid, size):
             
             search_element(x, 0, ladder_model_grid, start_element, rung)
 
-            solve_rung(rung)
-            for coil in rung.coils:
-                print(f'coil data: {coil.connected_data}')
+            #solve_rung(rung)
+            #for coil in rung.coils:
+                #print(f'coil data: {coil.connected_data}')
 
             rungs.append(rung)
 

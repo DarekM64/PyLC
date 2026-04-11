@@ -13,10 +13,10 @@ def solve_rung(rung:Rung):
     coil:Coil
     for coil in rung.coils:
         if coil.reached==True:
-            coil.connected_data=True
+            coil.connected_data[0]=True
         else:
-            coil.connected_data=False
-
+            coil.connected_data[0]=False
+        print(f'coil data: {coil.connected_data}')
 
 def rung_prepare_coils(coils:list[Coil]):
     '''set rung coils objects to not reached state before checking path'''

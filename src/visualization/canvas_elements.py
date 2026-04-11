@@ -8,7 +8,7 @@ def draw_contact(canvas:Canvas, x1, y1, color='black', size=80):
     ids=[]
     #clear_canvas(canvas, x1, y1-size/2, size)
     line_width = size/10
-    test_column_color = 'blue'
+    test_column_color = 'black'
     #code below should produce -| |- sign
     #first horizontal segment
     ids.append(canvas.create_line(x1, y1, x1+line_width*3, y1, fill=color,width=line_width)) 
@@ -18,6 +18,8 @@ def draw_contact(canvas:Canvas, x1, y1, color='black', size=80):
     ids.append(canvas.create_line(x1+line_width*3, y1-line_width*3, x1+line_width*3, y1+line_width*3, fill=test_column_color, width=line_width))
     #second vertical segment
     ids.append(canvas.create_line(x1+line_width*7, y1-line_width*3, x1+line_width*7, y1+line_width*3, fill=test_column_color, width=line_width))
+    #inner rectangle, reflecting value, evaluate True = visible, False = unvisible
+    ids.append(canvas.create_line(x1+size/2, y1-size/4, x1+size/2, y1+size/4, fill='blue', width=size/4, state='hidden'))
 
     return ids
 
@@ -70,7 +72,8 @@ def draw_coil(canvas:Canvas,x1,y1,color='black', size=80):
                                 fill=test_column_color, width=line_width
                                 )
                 )
-    
+    #inner rectangle, reflecting value, evaluate True = visible, False = unvisible
+    ids.append(canvas.create_line(x1+size/2, y1-size/4, x1+size/2, y1+size/4, fill='blue', width=size/4, state='hidden'))
     return ids
 
 def draw_horizontal_line(canvas:Canvas, x1, y1, color='black', size=80):
