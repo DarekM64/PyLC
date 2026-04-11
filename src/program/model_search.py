@@ -8,6 +8,7 @@ def model_search(ladder_model_grid, size):
     print('Search model !')
     rungs=[]
     rung_build = False
+    delete_connections(ladder_model_grid)
     for x in range(size):
         if (x, 0) in ladder_model_grid:
             start_element=ladder_model_grid[x, 0].element
@@ -81,7 +82,7 @@ def update_neighbours(grid_x, grid_y, ladder_model_grid, element, action):
     if action == 'add_element':
         #If there is node add element to node
         if ladder_model_grid[grid_x, grid_y].node is not None:
-            ladder_model_grid[grid_x, grid_y].node.connected_alaments.append(element)
+            ladder_model_grid[grid_x, grid_y].node.connected_elements.append(element)
         #or if there is element on the left add element to left element
         elif [grid_x-1,grid_y] in ladder_model_grid:
             if ladder_model_grid[grid_x-1][grid_y].element is not None:
@@ -96,5 +97,9 @@ def update_neighbours(grid_x, grid_y, ladder_model_grid, element, action):
     
 
     
-def build_rung(grid_x, grid_y, ladder_model_grid):
-    pass
+def delete_connections(ladder_model_grid):
+     for grid in ladder_model_grid.values():
+          if grid.element is not None:
+               grid.element.connected_elements = []
+          if grid.node is not None:
+               grid.node.connected_elements = []

@@ -173,7 +173,7 @@ class Model():
             self.add_element(grid_x, grid_y)
         elif self.selected_tool in _tools_ladder_node:
             #vertical line not allowed in first grid index
-            if grid_x > 0:
+            if grid_y > 0:
                 self.add_node(grid_x, grid_y)
         elif self.selected_tool == 'delete_element':
             self.delete_element(grid_x, grid_y)
@@ -185,6 +185,7 @@ class Model():
         self.compiled = False
 
     def compile(self):
+        self.plc.stop()
         rungs = model_search(self.ladder_model_grid, self.grid_width)
         self.plc.rungs = rungs
         self.compiled = True

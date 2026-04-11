@@ -25,6 +25,7 @@ class PLC:
                 print('All rungs solved')
             if self.close_thread:
                 break
+            time.sleep(1)
         print('Closing plc main program thread')
 
     def start(self):
