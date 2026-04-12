@@ -35,12 +35,20 @@ def create_setting_window(parent, element_model):
 
         return top
 
-def create_setting_window2(parent, element_model, plc):
+def create_setting_window2(parent, element_model, plc, x, y):
         top = None 
         #Get ladder object from model
         element = element_model.element
         if isinstance(element, Contact) or isinstance(element, Coil):
-            top = Toplevel(parent,width = 700, height = 500)
+            top = Toplevel(parent,width = 400, height = 150)
+            parent_x = parent.winfo_rootx()
+            parent_y = parent.winfo_rooty()
+            print(f'Parent x:{parent_x}, y:{parent_y}')
+            x_set = int(parent_x + x)
+            y_set = int(parent_y + y)
+            #geometry_string=f'400x150+{int(x)}+{int(y)}'
+            geometry_string=f'400x150+{x_set}+{y_set}'
+            top.geometry(geometry_string)
             label = Label(top, text=element.connected_data_type)
             address = IntVar()
             address.set(element.connected_data_address)

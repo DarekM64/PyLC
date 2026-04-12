@@ -142,11 +142,11 @@ class Model():
                 delete_canvas_elements(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].node_canvas_id)
                 self.ladder_model_grid[(grid_x, grid_y)].node = None
 
-    def display_settings(self, grid_x, grid_y):
+    def display_settings(self, grid_x, grid_y, x, y):
         '''Display element settings'''
         if (grid_x,grid_y) in self.ladder_model_grid:
             if self.ladder_model_grid[(grid_x, grid_y)].element != None:
-                element_parameter.create_setting_window2(self.canvas,  self.ladder_model_grid[(grid_x, grid_y)], self.plc )
+                element_parameter.create_setting_window2(self.canvas,  self.ladder_model_grid[(grid_x, grid_y)], self.plc, x, y )
 
                 
 
@@ -183,7 +183,7 @@ class Model():
         elif self.selected_tool == 'delete_vertical':
             self.delete_node(grid_x, grid_y)
         elif self.selected_tool == 'cursor':
-            self.display_settings(grid_x, grid_y)
+            self.display_settings(grid_x, grid_y, event.x, event.y)
 
         self.compiled = False
 

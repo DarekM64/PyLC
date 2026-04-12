@@ -20,7 +20,7 @@ class App(ctk.CTk):
         super().__init__()
 
         menu = AppMenu(self)
-        
+        self.frame
         #program
         self.ladder_model= Model()
         
