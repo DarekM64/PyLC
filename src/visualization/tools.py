@@ -29,16 +29,7 @@ def create_frame_tools(master):
     button4.grid(row=0, column=3,padx=5,pady=5, sticky='e')
     button5.grid(row=0, column=4,padx=5,pady=5, sticky='e')
     button6.grid(row=0, column=5,padx=5,pady=5, sticky='e')
-    button7.grid(row=0, column=6,padx=5,pady=5, sticky='e')
-  
-
-        # button1.bind("<Button-1>", lambda event: select_tool('coil'))
-        # button2.bind("<Button-1>", lambda event: select_tool('contact'))
-        # button3.bind("<Button-1>", lambda event: select_tool('line'))
-        # button4.bind("<Button-1>", lambda event: select_tool('split'))
-        # button5.bind("<Button-1>", lambda event: select_tool('join'))
-        # button6.bind("<Button-1>", lambda event: select_tool('clear'))
-        # button7.bind("<Button-1>", lambda event: select_tool('pointer'))
+    button7.grid(row=0, column=6,padx=5,pady=5, sticky='e') 
 
 
     button_plc_1=create_button(tools_frame,shape_type='stop',size = 80)
@@ -75,5 +66,9 @@ def create_button(master, shape_type='coil',size = 80):
             draw_delete_element(button_frame, size//4, size//4, color='red', size=size//2)
         case 'cursor':
             draw_cursor(button_frame, 0, pos_y, color, size=size)
+        case 'stop':
+            draw_stop(button_frame, 0, pos_y, color, size=size)
+        case 'start':
+            draw_start(button_frame, 0, pos_y, color, size=size)
 
     return button_frame

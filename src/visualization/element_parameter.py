@@ -47,7 +47,7 @@ def create_setting_window2(parent, element_model, plc, x, y):
             x_set = int(parent_x + x)
             y_set = int(parent_y + y)
             #geometry_string=f'400x150+{int(x)}+{int(y)}'
-            geometry_string=f'400x150+{x_set}+{y_set}'
+            geometry_string=f'200x100+{x_set}+{y_set}'
             top.geometry(geometry_string)
             label = Label(top, text=element.connected_data_type)
             address = IntVar()
@@ -70,5 +70,10 @@ def create_setting_window2(parent, element_model, plc, x, y):
                 top.destroy()
 
             top.protocol("WM_DELETE_WINDOW", on_closing)
+            
+            #Make window modal
+            top.wait_visibility()
+            top.grab_set()
+            parent.wait_window(top)
 
         return top
