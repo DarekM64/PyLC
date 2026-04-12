@@ -13,16 +13,19 @@ class PLC:
         self.main_thread = threading.Thread(target=self.plc_main_program)
         self.run=False
         self.close_thread = False
+        self.actual_index= 0
 
     
     def plc_main_program(self):
         while True:
-            while self.run:
+            while self.run and not self.close_thread:
                 print('Start evaluating rungs')
-                for rung in self.rungs:
+                for idx, rung in enumerate(self.rungs):
+                    self.actual_index = idx
                     evaluate_rung(rung)
-                    time.sleep(1)
+                    time.sleep(1)                  
                 print('All rungs solved')
+                
             if self.close_thread:
                 break
             time.sleep(1)

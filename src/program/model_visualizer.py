@@ -31,6 +31,20 @@ def create_net(canvas:Canvas, size_px:int=2, rows:int=20, columns:int=16, space:
             next_x+= space
         next_y += space
 
+def create_rungs_lines(canvas:Canvas, rows:int=20, line_width:int=5, space:int=80):
+    '''
+        Creates rungs lines in canvas
+        canvas: target Canvas
+        rows: number of program rows
+        line_width: px width of vertical line
+    '''
+    lines=[]
+    next_y = 0
+    for i in range(rows):
+        lines.append(draw_vertical_line(canvas, 0, next_y, color='black', color2='green2', size=80)[0])
+        next_y += space
+    return lines
+
 def calc_position_element(x, y, grid_width):
         #return x*grid_width, y*grid_width+grid_width//2
         return y*grid_width, x*grid_width+grid_width//2

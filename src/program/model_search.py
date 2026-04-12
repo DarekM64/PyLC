@@ -1,19 +1,23 @@
+
+
 from src.program.model import *
 
 from src.ladder.ladder_elements import *
 from src.ladder.ladder_solver import *
 
+
+
 def model_search(ladder_model_grid, size):
     '''Creating rungs from model presentation'''
     print('Search model !')
     rungs=[]
-    rung_build = False
+    rungs_ids=[]
     delete_connections(ladder_model_grid)
     for x in range(size):
         if (x, 0) in ladder_model_grid:
             start_element=ladder_model_grid[x, 0].element
             rung = Rung(start_element)
-            rung_build=True
+            
             
             search_element(x, 0, ladder_model_grid, start_element, rung)
 
@@ -22,8 +26,9 @@ def model_search(ladder_model_grid, size):
                 #print(f'coil data: {coil.connected_data}')
 
             rungs.append(rung)
+            rungs_ids.append(ladder_model_grid[x, 0].pos_x)
 
-    return rungs
+    return rungs, rungs_ids
 
 def search_element(grid_x, grid_y, ladder_model_grid, element,rung:Rung):
     '''Check if element is connected with elements and search deeper if needed'''

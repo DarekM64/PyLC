@@ -81,12 +81,19 @@ def draw_horizontal_line(canvas:Canvas, x1, y1, color='black', size=80):
     ids.append(canvas.create_line(x1, y1, x1+size, y1, fill=color, width=line_width) )
 
     return ids
-
-def draw_vertical_line(canvas:Canvas, x1, y1, color='black', size=80):
+'''
+state:
+assign a state of normal (default), disabled (item event bindings are ignored), or hidden (removed from display)
+disabledfill, disabledwidth, ...:
+if the item's state is set to disabled, the item will display using these variants of the usual attributes
+activefill,
+'''
+def draw_vertical_line(canvas:Canvas, x1, y1, color='black', color2='black', size=80, line_width=None):
     '''Draw vertical line in canvas'''
     ids=[]
-    line_width = size/10
-    ids.append(canvas.create_line(x1, y1, x1, y1+size, fill=color, width=line_width) )
+    if line_width is None:
+        line_width = size/10
+    ids.append(canvas.create_line(x1, y1, x1, y1+size, fill=color, disabledfill=color2, width=line_width) )
 
     return ids 
 
@@ -130,36 +137,3 @@ def draw_start(canvas:Canvas, x1, y1, color='yellow', size=80):
 def draw_label(canvas:Canvas, x1, y1, color='blue', size=80, text='?'):
     label = canvas.create_text(x1+size//2, y1+size//2,text=text)
     return label
-
-def draw_small_text(canvas:Canvas, x1, y1, color='black'):
-    canvas.create_rectangle((x1,y1), (x1+size, y1+size),fill='light blue', activeoutline='yellow')
-
-
-
-
-# To remove
-def draw_split(canvas:Canvas, x1, y1, color='black', size=80):
-    '''Draw split in canvas
-            --+--
-              |'''
-    clear_canvas(canvas, x1, y1-size/2, size)
-    clear_canvas(canvas, x1, y1+size/2, size)
-    line_width = size/10
-    draw_horizontal_line(canvas, x1, y1, color='black', size=size)
-    canvas.create_line(x1+size/2, y1, x1+size/2, y1+size, fill=color,width=line_width) 
-    canvas.create_line(x1+size/2, y1+size, x1+size, y1+size, fill=color,width=line_width) 
-
-def draw_join(canvas:Canvas, x1, y1, color='black', size=80):
-    '''Draw join in canvas
-            --+--
-              |'''
-    clear_canvas(canvas, x1, y1-size/2, size)
-    clear_canvas(canvas, x1, y1+size/2, size)
-    line_width = size/10
-    draw_horizontal_line(canvas, x1, y1, color='black', size=size)
-    canvas.create_line(x1+size/2, y1, x1+size/2, y1+size, fill=color,width=line_width) 
-    canvas.create_line(x1, y1+size, x1+size/2, y1+size, fill=color,width=line_width) 
-
-def clear_canvas(canvas:Canvas, x1, y1, size=80):
-    '''Clear ladder field before drawing element'''
-    canvas.create_rectangle((x1,y1), (x1+size, y1+size),fill='light blue', activeoutline='yellow')

@@ -11,10 +11,8 @@ from src.visualization.tools import create_frame_tools
 from src.visualization.workspace_canvas import init_workspace
 
 from src.visualization.canvas_elements import *
-from ladder_canvas import create_fields
 from src.program.model import Model
-from element_parameter import create_setting_window
-from src.program.model_search import model_search
+
 
 #TODO Clean class for more organized code
 class App(ctk.CTk):
@@ -50,11 +48,18 @@ class App(ctk.CTk):
         self.element_settings = None
         self.ladder_model.initialize_program(20, 16, 80)
         
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
 
+    def on_closing(self):
+        print('!!! EXIT EVENT !!!')
+        self.ladder_model.plc.close_thread = True
+        self.ladder_model.close_update_canvas = True
+        self.destroy()
 
-        def __exit__(self, exc_type, exc_val, exc_tb):
-            self.ladder_model.plc.close_thread = True
-            self.ladder_model.close_update_canvas = True
+        # def __exit__(self, exc_type, exc_val, exc_tb):
+        #     print('!!! EXIT EVENET !!!')
+        #     self.ladder_model.plc.close_thread = True
+        #     self.ladder_model.close_update_canvas = True
             
         # def click_handler(event):
         #     '''calculate x,y index  of clickecd field'''

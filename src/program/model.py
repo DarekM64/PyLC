@@ -27,6 +27,7 @@ class Model():
         self.update_canvas = threading.Thread(target=self.update_canvas)
         self.update_canvas.start()
         self.close_update_canvas=False
+        self.rungs_indicators=[]
 
     def attach_canvas(self, canvas:Canvas):
         self.canvas=canvas
@@ -41,6 +42,7 @@ class Model():
         clear_canvas(self.canvas)
         self.canvas.configure(height=rows*grid_width, width=cols*grid_width)
         create_net(self.canvas,3, rows, cols, grid_width)
+        self.rungs_indicators = create_rungs_lines(self.canvas, rows, line_width = 9, space = grid_width)
 
     
     def select_tool(self, tool):
@@ -109,7 +111,7 @@ class Model():
         #group of elements managed similar way in model
 
         node = Line()
-        ids=draw_vertical_line(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)
+        ids=draw_vertical_line(self.canvas, canvas_x, canvas_y, size = self.grid_width)
 
         if (grid_x,grid_y) in self.ladder_model_grid:
             if self.ladder_model_grid[(grid_x, grid_y)].node != None:
@@ -187,8 +189,9 @@ class Model():
 
     def compile(self):
         self.plc.stop()
-        rungs = model_search(self.ladder_model_grid, self.grid_width)
+        rungs, rungs_grid_id = model_search(self.ladder_model_grid, self.grid_width)
         self.plc.rungs = rungs
+        self.rungs_grid_id = rungs_grid_id
         self.compiled = True
 
     def update_canvas(self):
@@ -200,7 +203,18 @@ class Model():
                             update_elements_display(self.canvas, grid)
                         else:
                             hide_elements_display(self.canvas, grid)
-            time.sleep(.25)
+            if self.plc.run:
+                for rung_index in range(len(self.plc.rungs)):
+                    if rung_index != self.plc.actual_index:
+                        self.canvas.itemconfig(self.rungs_indicators[self.rungs_grid_id[rung_index]], state='normal')
+                    else:
+                        self.canvas.itemconfig(self.rungs_indicators[self.rungs_grid_id[rung_index]], state='disabled')
+                # for rung_index in self.rungs_indicators:
+                #     if rung_index != self.plc.actual_index:
+                #         self.canvas.itemconfig(rung_index, state='disabled')
+                #     else:
+                #         self.canvas.itemconfig(rung_index, state='normal')
+            time.sleep(.20)
 
             if self.close_update_canvas:
                 break

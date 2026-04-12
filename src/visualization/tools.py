@@ -61,19 +61,19 @@ def create_button(master, shape_type='coil',size = 80):
     pos_y = size//2
     match shape_type:
         case 'coil':
-            draw_coil(button_frame, 0, pos_y, color, size)
+            draw_coil(button_frame, 0, pos_y, color=color, size=size)
         case 'contact':
-            draw_contact(button_frame, 0, pos_y, color, size)
+            draw_contact(button_frame, 0, pos_y, color=color, size=size)
         case 'line_horizontal':
-            draw_horizontal_line(button_frame, 0, pos_y, color, size)
+            draw_horizontal_line(button_frame, 0, pos_y, color=color, size=size)
         case 'line_vertical':
-            draw_vertical_line(button_frame, size//10, size//10, color, size)
+            draw_vertical_line(button_frame, size//10, size//10, size=size)
         case 'delete_element':
-            draw_delete_element(button_frame, size//4, size//4, 'red', size//2)
+            draw_delete_element(button_frame, size//4, size//4, color='red', size=size//2)
         case 'delete_vertical':
-            draw_vertical_line(button_frame, size//10, size//10, color, size)
-            draw_delete_element(button_frame, size//4, size//4, 'red', size//2)
+            draw_vertical_line(button_frame, size//10, size//10, color=color, size=size)
+            draw_delete_element(button_frame, size//4, size//4, color='red', size=size//2)
         case 'cursor':
-            draw_cursor(button_frame, 0, pos_y, color, size)
+            draw_cursor(button_frame, 0, pos_y, color, size=size)
 
     return button_frame
