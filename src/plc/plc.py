@@ -1,15 +1,53 @@
+import threading
+import time
 
-
+from src.ladder.ladder_elements import *
+from src.ladder.ladder_solver import *
 
 
 class PLC:
 
-    def __init__(self,M=100,D=100):
+    def __init__(self,M=100):
         self.rungs=[]
-        self.M=(False for i in range(M))
-        self.D=(0 for i in range(D))
+        self.M=[[False] for i in range(M)]
+        self.main_thread = threading.Thread(target=self.plc_main_program)
+        self.run=False
+        self.close_thread = False
+        self.actual_index= 0
 
-
-    def evaluate_rung(rung:Rung):
-        pass
     
+    def plc_main_program(self):
+        while True:
+            while self.run and not self.close_thread:
+                print('Start evaluating rungs')
+                for idx, rung in enumerate(self.rungs):
+                    self.actual_index = idx
+                    evaluate_rung(rung)
+                    time.sleep(1)                  
+                print('All rungs solved')
+                
+            if self.close_thread:
+                break
+            time.sleep(1)
+        print('Closing plc main program thread')
+
+    def start(self):
+        self.run = True
+        self.main_thread.start()
+
+    def stop(self):
+        self.run = False
+
+    def get_data(type, address):
+        match type:
+            case 'M':
+                return self.M[address] 
+
+    def bind_data(self,type='M', address = 0):
+        match type:
+            case 'M':
+                return self.M[address]
+        
+
+def evaluate_rung(rung:Rung):
+        solve_rung(rung)

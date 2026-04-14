@@ -8,15 +8,17 @@ def solve_rung(rung:Rung):
         If searching reaches coils they are set to True
     '''
     rung_prepare_coils(rung.coils)
+    for coil in rung.coils:
+        print(f'M connected data:{coil.connected_data_address}')
     solve_rung_path(rung.start_element)
 
     coil:Coil
     for coil in rung.coils:
         if coil.reached==True:
-            coil.connected_data=True
+            coil.connected_data[0]=True
         else:
-            coil.connected_data=False
-
+            coil.connected_data[0]=False
+        print(f'coil data: {coil.connected_data}')
 
 def rung_prepare_coils(coils:list[Coil]):
     '''set rung coils objects to not reached state before checking path'''
@@ -26,7 +28,7 @@ def rung_prepare_coils(coils:list[Coil]):
 def solve_rung_path(element):
     '''Evaluate node, search from left to right'''
     #Contact solving
-    if isinstance(element, Contact):
+    if element.type=='contact':
         #contact is not connected -> wrong structure throw error
         if element.connected_elements is None:
             raise Exception("Contact have no connection")
@@ -36,17 +38,17 @@ def solve_rung_path(element):
                 solve_rung_path(element.connected_elements[0])
     
     #Coil solving
-    if  isinstance(element, Coil) :
+    elif element.type=='coil':
         #coil reached set coil reached to true
         element.reached = True
-        print(f'element {element} reached True')
+        #print(f'element {element} reached True')
         #return False to conitnue cheking other nodes if exist
         return False
 
-    if element.type == 'split' or element.type == 'join':
+    elif element.type == 'line':
 
         for next_element in element.connected_elements:
-            #try path for every next element from split node
+            #Try path for every next element from split node
             #stop if any path reached true (logic OR)
             if solve_rung_path(next_element) == True:
                 return True
@@ -54,14 +56,14 @@ def solve_rung_path(element):
         #every path from split return False
         return False
 
-contact_1 = Contact(connected_data=True)
-contact_2 = Contact(connected_data=True)
-node_1 = Element(connected_data=True,type='split')
-contact_3 = Contact(connected_data=False)
-contact_4 = Contact(connected_data=True)
-node_2 = Element(connected_data=True,type='join')
-coil_1 = Coil(connected_data=True)
-coil_2 = Coil(connected_data=True)
+contact_1 = Contact()
+contact_2 = Contact()
+node_1 = Node()
+contact_3 = Contact()
+contact_4 = Contact()
+node_2 = Node()
+coil_1 = Coil()
+coil_2 = Coil()
 
 contact_1.connected_elements.append(contact_2)
 contact_2.connected_elements.append(node_1)
@@ -79,7 +81,7 @@ node_2.connected_elements.append(coil_2)
 '''
 #TODO move test declarations to test module
 rung_1 = Rung(start_element=contact_1)
-rung_1.coils.append(coil_1)
-rung_1.coils.append(coil_2)
+rung_1.coils.add(coil_1)
+rung_1.coils.add(coil_2)
 solve_rung(rung_1)
 
