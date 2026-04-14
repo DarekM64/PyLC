@@ -7,8 +7,9 @@ from src.plc.plc import *
 from src.program.modelGridElement import ModelGridElement
 from src.program.model_visualizer import *
 from src.program.model_search import model_search
-import src.visualization.canvas_elements as canvas_elements
 import src.visualization.element_parameter as element_parameter
+
+#TODO build some tests for functions
 
 class Model():
     '''Connects data for graphic presentation and rung logic
@@ -17,7 +18,6 @@ class Model():
                             and canvas drawing
     '''
     def __init__(self, rows=20, cols=16):
-        #self.initialize_program(rows, cols)
         self.plc=PLC()
         self.selected_tool='contact'
         self.selected_action='none'
@@ -33,11 +33,10 @@ class Model():
         self.canvas=canvas
         canvas.bind("<Button-1>", self.click_handler)
 
-    def set_Selected_Element(self, selected_element):   
-        self.selected_element = selected_element
-
-    def initialize_program(self,rows, cols, grid_width):
-        #'''Creates empty list of elements for clean ladder'''
+    def initialize_program(self,rows:int, cols:int, grid_width:int):
+        '''Creates empty list of elements for clean ladder
+            Remove elements from canvas
+            Create empty grid and power line on left side'''
         self.grid_width = grid_width
         clear_canvas(self.canvas)
         self.canvas.configure(height=rows*grid_width, width=cols*grid_width)
@@ -58,17 +57,12 @@ class Model():
                 self.plc.start()
         elif self.selected_action == 'stop':
             self.plc.stop()
-
-
-
-    def get_element(self, grid_x, grid_y):
-        return self.ladder_model_grid[grid_x][grid_y]
     
-   
 
-    def add_element(self,grid_x, grid_y):
+    def add_element(self, grid_x:int, grid_y:int):
+        '''Add element to model based on selected tool'''
+
         canvas_x,canvas_y= calc_position_element(grid_x, grid_y, self.grid_width)
-        #group of elements managed similar way in model
 
         match self.selected_tool:
             case 'contact':
@@ -81,6 +75,7 @@ class Model():
                 element=Line()  
                 ids=draw_horizontal_line(self.canvas, canvas_x, canvas_y, color='black',  size = self.grid_width)
         
+        #Label to display assigned value if element use one
         use_label = not isinstance(element, Line)
         label=None
         if use_label:
@@ -88,8 +83,6 @@ class Model():
             label = draw_label(self.canvas, canvas_x, canvas_y, text=label_text)   
         
         #Element exist, remove old add new one
-        
-        #if self.ladder_model_grid[(grid_x, grid_y)].element != None:
         if (grid_x, grid_y) in self.ladder_model_grid:
             if self.ladder_model_grid[grid_x, grid_y].element is not None:
                 delete_canvas_elements(self.canvas, self.ladder_model_grid[(grid_x, grid_y)].element_canvas_id)
@@ -104,11 +97,11 @@ class Model():
             modelGridElement = ModelGridElement(grid_x, grid_y, element_canvas_id=ids, element=element, label=label)
             self.ladder_model_grid[(grid_x, grid_y)]=modelGridElement
 
-        #update_neighbours(grid_x, grid_y, self.ladder_model_grid, element, action='add_element')
 
-    def add_node(self,grid_x, grid_y):
+    def add_node(self,grid_x:int, grid_y:int):
+        '''Add node to model'''
         canvas_x,canvas_y= calc_position_element(grid_x, grid_y, self.grid_width)
-        #group of elements managed similar way in model
+
 
         node = Line()
         ids=draw_vertical_line(self.canvas, canvas_x, canvas_y, size = self.grid_width)
@@ -161,7 +154,10 @@ class Model():
 
 
     def click_handler(self, event):
-        '''calculate x,y index  of clickecd field'''
+        '''Call actions like add/delete/edit element based on selected tool 
+            and grid clicked by user'''
+        
+        #Calculate x,y index  of clickecd field'''
         x=self.canvas.canvasx(event.x)
         y=self.canvas.canvasy(event.y)
 
@@ -188,13 +184,23 @@ class Model():
         self.compiled = False
 
     def compile(self):
+        '''Build structures of rungs based on elements
+            drawed in editor'''
+        
+        #stop simulating PLC
         self.plc.stop()
+
+        self.compiled = False
         rungs, rungs_grid_id = model_search(self.ladder_model_grid, self.grid_width)
         self.plc.rungs = rungs
         self.rungs_grid_id = rungs_grid_id
+        
         self.compiled = True
 
     def update_canvas(self):
+        '''Show values of devices during simulation.
+            Highlight currentyly running rung.'''
+        
         while True:
             for grid in self.ladder_model_grid.values():
                 if grid.element is not None:
@@ -209,18 +215,14 @@ class Model():
                         self.canvas.itemconfig(self.rungs_indicators[self.rungs_grid_id[rung_index]], state='normal')
                     else:
                         self.canvas.itemconfig(self.rungs_indicators[self.rungs_grid_id[rung_index]], state='disabled')
-                # for rung_index in self.rungs_indicators:
-                #     if rung_index != self.plc.actual_index:
-                #         self.canvas.itemconfig(rung_index, state='disabled')
-                #     else:
-                #         self.canvas.itemconfig(rung_index, state='normal')
             time.sleep(.20)
 
             if self.close_update_canvas:
                 break
         print('Close update canvas thread')
 
-    
+
+
 _tools_set=('coil', 'contact', 'line_vertical', 'line_horizontal',
                 'cursor', 'delete_element', 'delete_vertical')
 

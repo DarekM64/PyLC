@@ -2,10 +2,6 @@ from tkinter import Toplevel, Label, Entry, IntVar
 from src.ladder.ladder_elements import * 
 
 
-#class ElementParameter:
-
-   # def __init__(self, parent, element):
-
 def create_setting_window(parent, element_model):
         top = None 
         #Get ladder object from model

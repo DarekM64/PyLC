@@ -15,14 +15,11 @@ def create_frame_tools(master):
     button1=create_button(tools_frame,shape_type='coil',size = 80)
     button2=create_button(tools_frame,shape_type='contact',size = 80)
     button3=create_button(tools_frame,shape_type='line_horizontal',size = 80)
-    #button4=create_button(tools_frame,shape_type='split',size = 80)
-    #button5=create_button(tools_frame,shape_type='join',size = 80)
     button4=create_button(tools_frame,shape_type='line_vertical',size = 80)
     button5=create_button(tools_frame,shape_type='delete_element',size = 80)
     button6=create_button(tools_frame,shape_type='delete_vertical',size = 80)
     button7=create_button(tools_frame,shape_type='cursor',size = 80)
 
-    #tools_frame.children
     button1.grid(row=0, column=0,padx=5,pady=5, sticky='e')
     button2.grid(row=0, column=1,padx=5,pady=5, sticky='e')
     button3.grid(row=0, column=2,padx=5,pady=5, sticky='e')
@@ -38,8 +35,6 @@ def create_frame_tools(master):
     button_plc_1.grid(row=0, column=7,padx=5,pady=5, sticky='e')
     button_plc_2.grid(row=0, column=8,padx=5,pady=5, sticky='e')
     
-        # button_plc_1.bind("<Button-1>", lambda event: select_plc_action('stop'))
-        # button_plc_2.bind("<Button-1>", lambda event: select_plc_action('start'))
     return tools_frame
 
 
@@ -50,6 +45,8 @@ def create_button(master, shape_type='coil',size = 80):
                                 activeoutline='yellow')
     color = 'black'
     pos_y = size//2
+
+    #Draw symbols in tools and action buttons
     match shape_type:
         case 'coil':
             draw_coil(button_frame, 0, pos_y, color=color, size=size)

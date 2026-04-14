@@ -59,7 +59,7 @@ class Rung():
     '''List of elements creating rung'''
     def __init__(self, start_element=None, outputs=None):
         self.start_element = start_element
-        self.coils=[] #creates empty list of Coils affected by rung
+        self.coils=set() #creates empty list of Coils affected by rung
 
 class Program():
     '''List of rungs creating program'''

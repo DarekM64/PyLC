@@ -1,6 +1,5 @@
 from CTkMenuBar import *        
 from tkinter import filedialog
-from functools import partial
 
 class AppMenu():
         def __init__(self,master):
@@ -21,6 +20,7 @@ class AppMenu():
             sub_menu.add_option(option=".TXT")
             sub_menu.add_option(option=".PDF")
 
+            #TODO create cut copy paste mechanic
             dropdown2 = CustomDropdownMenu(widget=button_2)
             dropdown2.add_option(option="Cut")
             dropdown2.add_option(option="Copy")
@@ -38,9 +38,10 @@ class AppMenu():
 
             self.menu = menu
 
-        def connectCompile(self, function):#, model, size):
+        def connectCompile(self, function):
             self.dropdown3.add_option(option="Compile", command=function )#partial(function, model))
 
+        #TODO create read and write to file
         def open_file(self):
             return filedialog.askopenfilename()
     
