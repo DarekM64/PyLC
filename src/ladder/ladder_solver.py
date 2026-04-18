@@ -1,16 +1,20 @@
 from src.ladder.ladder_elements import *
 
-
-
+__solve_call_counter:int = 0
+__f = None
 def solve_rung(rung:Rung):
     '''solve coils states for single rung
         Rung consist of connected nodes
         If searching reaches coils they are set to True
     '''
+    global __solve_call_counter
+    __solve_call_counter=0
     rung_prepare_coils(rung.coils)
     for coil in rung.coils:
         print(f'M connected data:{coil.connected_data_address}')
-    solve_rung_path(rung.start_element)
+    global __f
+    with open("dump.txt", "a") as __f:
+        solve_rung_path(rung.start_element)
 
     coil:Coil
     for coil in rung.coils:
@@ -27,6 +31,18 @@ def rung_prepare_coils(coils:list[Coil]):
 
 def solve_rung_path(element):
     '''Evaluate node, search from left to right'''
+
+    global __solve_call_counter
+    __solve_call_counter += 1
+    print(f'solver_rung_call:{__solve_call_counter}')
+    print(f'element.type:{element.type}')
+    print(f'element.connected_elements:{element.connected_elements}')
+
+    global __f
+    __f.write(f'solver_rung_call:{__solve_call_counter}\n')
+    __f.write(f'element.type:{element.type}\n')
+    __f.write(f'element.connected_elements:{element.connected_elements}\n')
+    
     #Contact solving
     if element.type=='contact':
         #contact is not connected -> wrong structure throw error
@@ -35,7 +51,8 @@ def solve_rung_path(element):
         else:
             #if contact return True go deeper
             if element.get_value():
-                solve_rung_path(element.connected_elements[0])
+                for first_item in element.connected_elements: break
+                solve_rung_path(first_item)
     
     #Coil solving
     elif element.type=='coil':
@@ -65,14 +82,14 @@ node_2 = Node()
 coil_1 = Coil()
 coil_2 = Coil()
 
-contact_1.connected_elements.append(contact_2)
-contact_2.connected_elements.append(node_1)
-node_1.connected_elements.append(contact_3)
-node_1.connected_elements.append(contact_4)
-contact_3.connected_elements.append(node_2)
-contact_4.connected_elements.append(node_2)
-node_2.connected_elements.append(coil_1)
-node_2.connected_elements.append(coil_2)
+contact_1.connected_elements.add(contact_2)
+contact_2.connected_elements.add(node_1)
+node_1.connected_elements.add(contact_3)
+node_1.connected_elements.add(contact_4)
+contact_3.connected_elements.add(node_2)
+contact_4.connected_elements.add(node_2)
+node_2.connected_elements.add(coil_1)
+node_2.connected_elements.add(coil_2)
 
 '''
 -||-----||---+--||----+----+----()

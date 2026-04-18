@@ -3,7 +3,7 @@
 class Element():
     '''Single element in ladder'''
     def __init__(self, type='basic'):
-        self.connected_elements = []
+        self.connected_elements = set()
         self.type = type
         self.normal_open:bool = True
         self.connected_data = [True]
@@ -27,7 +27,7 @@ class Coil(Element):
      
 class Contact(Element):
     def __init__(self, connected_data_type='M', connected_data_address: int=0, normal_open: bool=True, connected_data=[True]):
-        self.connected_elements = []
+        self.connected_elements = set()
         self.type ='contact'
         self.connected_data_type = connected_data_type
         self.connected_data_address = connected_data_address
@@ -38,7 +38,7 @@ class Contact(Element):
 class Line(Element):
     def __init__(self):
         self.type ='line'
-        self.connected_elements = []
+        self.connected_elements = set()
         self.reached = False
 
     def get_value(self):
@@ -47,7 +47,7 @@ class Line(Element):
 class Node(Element):
     def __init__(self):
         self.type = 'node'
-        self.connected_elements = []
+        self.connected_elements = set()
         self.reached = False
 
 
