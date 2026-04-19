@@ -8,3 +8,6 @@ __pycache__/
 #debug files
 dump.txt
 
+#saved workspace
+rung_json.json
+rung_json.pkl
