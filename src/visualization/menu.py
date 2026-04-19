@@ -16,9 +16,9 @@ class AppMenu():
 
             dropdown1.add_separator()
 
-            sub_menu = dropdown1.add_submenu("Export As")
-            sub_menu.add_option(option=".TXT")
-            sub_menu.add_option(option=".PDF")
+            self.sub_menu = dropdown1.add_submenu("Export As")
+            self.sub_menu.add_option(option=".TXT")
+            self.sub_menu.add_option(option=".PDF")
 
             #TODO create cut copy paste mechanic
             dropdown2 = CustomDropdownMenu(widget=button_2)
@@ -40,6 +40,9 @@ class AppMenu():
 
         def connectCompile(self, function):
             self.dropdown3.add_option(option="Compile", command=function )#partial(function, model))
+        
+        def connectExportJson(self, function):
+            self.sub_menu.add_option(option="Save ladder to Json", command=function )#partial(function, model))
 
         #TODO create read and write to file
         def open_file(self):

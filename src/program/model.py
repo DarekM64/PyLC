@@ -3,6 +3,7 @@ import time
 
 from src.ladder.ladder_elements import *
 from src.plc.plc import *
+from src.program.convert import *
 
 from src.program.modelGridElement import ModelGridElement
 from src.program.model_visualizer import *
@@ -221,6 +222,8 @@ class Model():
                 break
         print('Close update canvas thread')
 
+    def save_to_json(self):
+        dump_data(self.ladder_model_grid)
 
 
 _tools_set=('coil', 'contact', 'line_vertical', 'line_horizontal',

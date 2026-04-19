@@ -1,0 +1,96 @@
+{
+    "(1, 0)": {
+        "py/object": "src.program.modelGridElement.ModelGridElement",
+        "pos_x": 1,
+        "pos_y": 0,
+        "element_canvas_id": [
+            341,
+            342,
+            343,
+            344,
+            345
+        ],
+        "element_canvas_value": null,
+        "element": {
+            "py/object": "src.ladder.ladder_elements.Contact",
+            "connected_elements": {
+                "py/set": [
+                    {
+                        "py/object": "src.ladder.ladder_elements.Coil",
+                        "type": "coil",
+                        "connected_data_type": "M",
+                        "connected_data_address": 2,
+                        "normal_open": true,
+                        "reached": false,
+                        "connected_data": [
+                            false
+                        ],
+                        "connected_elements": {
+                            "py/set": []
+                        }
+                    }
+                ]
+            },
+            "type": "contact",
+            "connected_data_type": "M",
+            "connected_data_address": 0,
+            "normal_open": true,
+            "reached": false,
+            "connected_data": [
+                false
+            ]
+        },
+        "node_canvas_id": null,
+        "node": null,
+        "label": 346
+    },
+    "(1, 1)": {
+        "py/object": "src.program.modelGridElement.ModelGridElement",
+        "pos_x": 1,
+        "pos_y": 1,
+        "element_canvas_id": [
+            347,
+            348,
+            349,
+            350,
+            351
+        ],
+        "element_canvas_value": null,
+        "element": {
+            "py/id": 4
+        },
+        "node_canvas_id": null,
+        "node": null,
+        "label": 352
+    },
+    "(2, 0)": {
+        "py/object": "src.program.modelGridElement.ModelGridElement",
+        "pos_x": 2,
+        "pos_y": 0,
+        "element_canvas_id": [
+            353,
+            354,
+            355,
+            356,
+            357
+        ],
+        "element_canvas_value": null,
+        "element": {
+            "py/object": "src.ladder.ladder_elements.Coil",
+            "type": "coil",
+            "connected_data_type": "M",
+            "connected_data_address": 0,
+            "normal_open": true,
+            "reached": false,
+            "connected_data": {
+                "py/id": 6
+            },
+            "connected_elements": {
+                "py/set": []
+            }
+        },
+        "node_canvas_id": null,
+        "node": null,
+        "label": 358
+    }
+}
