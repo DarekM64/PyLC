@@ -23,6 +23,7 @@ class App(ctk.CTk):
         
         menu.connectCompile(self.ladder_model.compile)
         menu.connectExportJson(self.ladder_model.save_to_json)
+        menu.connectImportJson(self.ladder_model.read_from_json)
         self.title("PyLC")
         self.geometry("1060x800")
 

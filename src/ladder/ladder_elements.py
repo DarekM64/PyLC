@@ -31,7 +31,7 @@ class Coil(Element):
         # Remove non-picklable attributes
         del state['reached']
         del state['connected_data']
-        return 
+        return state
     
     def __setstate__(self, state):
             """Define how to restore from pickle."""
@@ -49,21 +49,21 @@ class Contact(Element):
         self.reached:bool = False
         self.connected_data = connected_data
 
-        def __getstate__(self):
-            """Define what to pickle."""
-            state = self.__dict__.copy()
-            # Remove non-picklable attributes
-            del state['connected_elements']
-            del state['reached']
-            del state['connected_data']
-            return state
-        
-        def __setstate__(self, state):
-            """Define how to restore from pickle."""
-            self.__dict__.update(state)
-            self.connected_elements = set()
-            self.reached = False
-            self.connected_data = [True]
+    def __getstate__(self):
+        """Define what to pickle."""
+        state = self.__dict__.copy()
+        # Remove non-picklable attributes
+        del state['connected_elements']
+        del state['reached']
+        del state['connected_data']
+        return state
+    
+    def __setstate__(self, state):
+        """Define how to restore from pickle."""
+        self.__dict__.update(state)
+        self.connected_elements = set()
+        self.reached = False
+        self.connected_data = [True]
 
     
 class Line(Element):
@@ -76,18 +76,18 @@ class Line(Element):
         return True
     
     def __getstate__(self):
-            """Define what to pickle."""
-            state = self.__dict__.copy()
-            # Remove non-picklable attributes
-            del state['connected_elements']
-            del state['reached']
-            return state
+        """Define what to pickle."""
+        state = self.__dict__.copy()
+        # Remove non-picklable attributes
+        del state['connected_elements']
+        del state['reached']
+        return state
 
     def __setstate__(self, state):
-            """Define how to restore from pickle."""
-            self.__dict__.update(state)
-            self.connected_elements = set()
-            self.reached = False
+        """Define how to restore from pickle."""
+        self.__dict__.update(state)
+        self.connected_elements = set()
+        self.reached = False
 
 class Node(Element):
     def __init__(self):
@@ -96,18 +96,18 @@ class Node(Element):
         self.reached = False
 
     def __getstate__(self):
-            """Define what to pickle."""
-            state = self.__dict__.copy()
-            # Remove non-picklable attributes
-            del state['connected_elements']
-            del state['reached']
-            return state
+        """Define what to pickle."""
+        state = self.__dict__.copy()
+        # Remove non-picklable attributes
+        del state['connected_elements']
+        del state['reached']
+        return state
 
     def __setstate__(self, state):
-            """Define how to restore from pickle."""
-            self.__dict__.update(state)
-            self.connected_elements = set()
-            self.reached = False
+        """Define how to restore from pickle."""
+        self.__dict__.update(state)
+        self.connected_elements = set()
+        self.reached = False
 
 
 '''types of elements in graphic ladder:

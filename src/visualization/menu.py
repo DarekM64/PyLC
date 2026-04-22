@@ -10,13 +10,13 @@ class AppMenu():
             button_4 = menu.add_cascade("Settings")
             button_5 = menu.add_cascade("About")
 
-            dropdown1 = CustomDropdownMenu(widget=button_1)
-            dropdown1.add_option(option="Open", command= self.open_file)
-            dropdown1.add_option(option="Save", command= self.save_file)
+            self.dropdown1 = CustomDropdownMenu(widget=button_1)
+            #self.dropdown1.add_option(option="Open", command= self.open_file)
+            #self.dropdown1.add_option(option="Save", command= self.save_file)
 
-            dropdown1.add_separator()
+            self.dropdown1.add_separator()
 
-            self.sub_menu = dropdown1.add_submenu("Export As")
+            self.sub_menu = self.dropdown1.add_submenu("Export As")
             self.sub_menu.add_option(option=".TXT")
             self.sub_menu.add_option(option=".PDF")
 
@@ -42,14 +42,12 @@ class AppMenu():
             self.dropdown3.add_option(option="Compile", command=function )#partial(function, model))
         
         def connectExportJson(self, function):
-            self.sub_menu.add_option(option="Save ladder to Json", command=function )#partial(function, model))
+            self.dropdown1.add_option(option="Save ladder to Json", command=function )
 
-        #TODO create read and write to file
-        def open_file(self):
-            return filedialog.askopenfilename()
-    
-        def save_file(self):
-            return filedialog.asksaveasfilename()
+        def connectImportJson(self, function):
+            self.dropdown1.add_option(option="Read ladder from Json", command=function )
+
+
         
 
         

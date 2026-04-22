@@ -223,8 +223,12 @@ class Model():
         print('Close update canvas thread')
 
     def save_to_json(self):
-        dump_data(self.ladder_model_grid)
+        encode_workspace(self.ladder_model_grid)
 
+    def read_from_json(self):
+
+        self.ladder_model_grid=decode_workspace()
+        build_workspace(self.ladder_model_grid, self.canvas, self.grid_width, self.plc)
 
 _tools_set=('coil', 'contact', 'line_vertical', 'line_horizontal',
                 'cursor', 'delete_element', 'delete_vertical')
