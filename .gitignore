@@ -4,3 +4,10 @@
 __pycache__/
 #python cache files
 *.pyc
+
+#debug files
+dump.txt
+
+#saved workspace
+rung_json.json
+rung_json.pkl

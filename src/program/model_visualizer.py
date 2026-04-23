@@ -16,7 +16,7 @@ def delete_canvas_element(canvas, id):
 
 def create_net(canvas:Canvas, size_px:int=2, rows:int=20, columns:int=16, space:int=80):
     '''
-        Creates dot net in canvas
+        Creates dot grid in canvas
         canvas: target Canvas
         size_px: pixel size of dot
         rows: number of dot rows
@@ -46,7 +46,6 @@ def create_rungs_lines(canvas:Canvas, rows:int=20, line_width:int=5, space:int=8
     return lines
 
 def calc_position_element(x, y, grid_width):
-        #return x*grid_width, y*grid_width+grid_width//2
         return y*grid_width, x*grid_width+grid_width//2
 
 def not_compiled_box():
@@ -60,6 +59,3 @@ def update_elements_display(canvas, grid_element:ModelGridElement):
 
 def hide_elements_display(canvas, grid_element:ModelGridElement):
      canvas.itemconfig(grid_element.element_canvas_id[-1], state='hidden')
-# def create_label(grid_x, grid_y, element):
-#      text = element.connected_data_type + element.connected_data_address
-#      canvas.create_text(x1+line_width, y1+size - line_width,text='')

@@ -14,4 +14,22 @@ class ModelGridElement():
         self.node_canvas_id=node_canvas_id
         self.node = node
         self.label = label
-        
+
+    def __getstate__(self):
+        """Define what to pickle."""
+        state = self.__dict__.copy()
+        # Remove non-picklable attributes
+        del state['element_canvas_id']
+        del state['element_canvas_value']
+        del state['node_canvas_id']
+        del state['label']
+        return state
+
+    def __setstate__(self, state):
+        """Define how to restore from pickle."""
+        self.__dict__.update(state)
+        # Initialize after unpickling
+        self.element_canvas_id = None   
+        self.element_canvas_value = None   
+        self.node_canvas_id = None   
+        self.label = None   
