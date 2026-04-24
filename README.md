@@ -1,4 +1,4 @@
-# PyLC 0.1
+# PyLC 0.1.2
 PLC Ladder Simulator: application simulating PLC functionality in Python. 
 
 
@@ -7,6 +7,8 @@ PLC Ladder Simulator: application simulating PLC functionality in Python.
 -creating ladder program  
 -defining PLC M registers for contacts and coils  
 -simulating PLC scan  
+-write ladder to file
+-read ladder from file
 
 
 ## Roadmap
