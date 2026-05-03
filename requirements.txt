@@ -7,4 +7,5 @@ packaging==26.0
 pluggy==1.6.0
 Pygments==2.19.2
 pytest==9.0.2
+jsonpickle==4.1.1
 -e git+https://github.com/DarekM64/PyLC.git@cc462c32c51ed3ccbf36968a50b6de6fcaf78020#egg=src
