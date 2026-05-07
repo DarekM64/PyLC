@@ -1,7 +1,6 @@
 # 🧠 PyLC 0.1.2 PLC Ladder Logic Simulator
 PLC Ladder Simulator: application simulating PLC functionality in Python. 
 
-
 A Python-based application for creating and simulating PLC ladder logic (LAD).
 
 This project was developed to combine industrial automation experience with Python programming and to model how real PLC control logic works in a simplified simulation environment.
@@ -9,15 +8,16 @@ This project was developed to combine industrial automation experience with Pyth
 Code created without AI.
 
 ## 🚀 Features
-Create ladder logic diagrams (LAD)
-Support for Normally Open (NO) contacts
-Logical branching (parallel paths)
-Multiple coils (outputs) within a single logic segment
-Mapping ladder elements to virtual binary variables (PLC-like memory)
-Real-time simulation and visualization:
-highlighting active logic paths
-displaying current states of variables (bits)
-Simulation of control logic execution flow
+Create ladder logic diagrams (LAD)  
+Support for Normally Open (NO) contacts  
+Logical branching (parallel paths)  
+Multiple coils (outputs) within a single logic segment  
+Mapping ladder elements to virtual binary variables (PLC-like memory)  
+Real-time simulation and visualization:  
+- highlighting active logic paths  
+- displaying current states of variables (bits)
+
+Simulation of control logic execution flow  
 
 ## 🧱 Technologies
 Python  
@@ -45,7 +45,6 @@ Linux / macOS:
 ## 🖥️ How it works
 
 The application allows users to build ladder logic diagrams using:
-
 contacts (NO)
 branches (parallel logic paths)
 coils (outputs)
@@ -53,14 +52,13 @@ coils (outputs)
 Each contact and coil can be linked to a virtual binary variable.
 
 During execution:
-
-active parts of the logic are highlighted
-variable states are updated and displayed in real time
-logic flow can be visually tracked step-by-step
+- active parts of the logic are highlighted
+- variable states are updated and displayed in real time
+- logic flow can be visually tracked step-by-step
 
 ## 🎯 Project Goals
-Improve Python programming skills
-Simulate PLC logic behavior in software
+Improve Python programming skills  
+Simulate PLC logic behavior in software  
 Bridge industrial automation experience with modern software development
 
 ## 🔧 Future Improvements
