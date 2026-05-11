@@ -102,7 +102,7 @@ V0.2:
 -write load ladder to file
 
 V0.3:  
---function blocks (ADD, SUB, MOV etc.)  
+-function blocks (ADD, SUB, MOV etc.)  
 
 
 
