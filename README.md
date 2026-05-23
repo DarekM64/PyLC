@@ -33,6 +33,7 @@ GitHub
 #### 3. Activate environment
 Windows (PowerShell / VS Code):
   >source .venv/Scripts/activate
+
 Linux / macOS:
   >source .venv/bin/activate
 #### 4. Install dependencies
