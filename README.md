@@ -5,7 +5,7 @@ A Python-based application for creating and simulating PLC ladder logic (LAD).
 
 This project was developed to combine industrial automation experience with Python programming and to model how real PLC control logic works in a simplified simulation environment.
 
-Code created without AI.
+**Code created without AI.**
 
 ## 🚀 Features
 Create ladder logic diagrams (LAD)  
